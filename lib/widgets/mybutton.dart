@@ -18,7 +18,7 @@ class MyButton extends StatelessWidget {
         //   backgroundColor: Color(0xff746bc9),
         // ),
         style: ElevatedButton.styleFrom(
-          primary: Colors.black, // Background color
+          backgroundColor: Colors.black, // Background color // Background color
         ),
         onPressed: onPressed,
       ),

@@ -3,6 +3,7 @@ import '../screens/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:carousel_slider/carousel_slider.dart' as cs;
 
 class Introduce extends StatefulWidget {
   const Introduce({super.key});
@@ -34,8 +35,7 @@ final List<String> textDetail = [
 
 class _IntroduceState extends State<Introduce> {
   int currentIndex = 0;
-  CarouselController carouselController = CarouselController();
-
+  cs.CarouselController carouselController = cs.CarouselController();
   @override
   void initState() {
     storePref();

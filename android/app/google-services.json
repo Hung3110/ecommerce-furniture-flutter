@@ -1,66 +1,26 @@
 {
   "project_info": {
-    "project_number": "999059083378",
-    "firebase_url": "https://flutter-project-e3817-default-rtdb.firebaseio.com",
-    "project_id": "flutter-project-e3817",
-    "storage_bucket": "flutter-project-e3817.appspot.com"
+    "project_number": "854823501238",
+    "project_id": "absolute-text-466917-v2",
+    "storage_bucket": "absolute-text-466917-v2.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:999059083378:android:639414d74757df0d40b2eb",
+        "mobilesdk_app_id": "1:854823501238:android:6a4e239f9ac029923b5517",
         "android_client_info": {
-          "package_name": "hcmute.edu.vn.final_project_funiture_app"
+          "package_name": "cmcu.edu.vn.furniture_app_project"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "999059083378-r83ha5ev6g0g49tioka6hn0c6mg297fb.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBLtdiS1Wz3Q7jNLpDlXhKZa8WR_ovPaE8"
+          "current_key": "AIzaSyCzy-yvT2sH-9JxbQAy561fYA2T7eFXyto"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "999059083378-r83ha5ev6g0g49tioka6hn0c6mg297fb.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:999059083378:android:48e7c73bddc01e1940b2eb",
-        "android_client_info": {
-          "package_name": "hcmute.edu.vn.furniture_app_project"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "999059083378-r83ha5ev6g0g49tioka6hn0c6mg297fb.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBLtdiS1Wz3Q7jNLpDlXhKZa8WR_ovPaE8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "999059083378-r83ha5ev6g0g49tioka6hn0c6mg297fb.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

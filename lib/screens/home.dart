@@ -101,368 +101,368 @@ class _HomePageState extends State<HomePage> {
     showFavoriteBadge = favoriteBadgeAmount > 0;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          const SettingPage(),
-          Positioned(
-            top: 50,
-            right: 50,
-            child: IconButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
-            }, icon: Container(
-              width: 40,
-              height: 40,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+        body: Stack(
+          children: [
+            const SettingPage(),
+            Positioned(
+              top: 50,
+              right: 50,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                }, icon: Container(
+                width: 40,
+                height: 40,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+                child: const Icon(Icons.close,  color: Colors.black,),
               ),
-              child: const Icon(Icons.close,  color: Colors.black,),
+              ),
             ),
-          ),
-          ),
-          AnimatedContainer(
-            transform: Matrix4.translationValues(xOffset, yOffset, 0)
-              ..scale(scaleFactor)
-              ..rotateZ(isSettingOpen ? -50 : 0),
-            duration: const Duration(milliseconds: 500),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: isSettingOpen
-                  ? const BorderRadius.all(Radius.circular(50))
-                  : const BorderRadius.all(Radius.circular(0))
-            ),
-            child: Scaffold(
-              // Appbar
-              appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(60),
-                child: SafeArea(
-                  child: Container(
-                    padding: const EdgeInsets.all(0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    xOffset = 300;
-                                    yOffset = 190;
-                                    isSettingOpen = true;
-                                    scaleFactor = 0.8;
-                                  });
-                                },
-                                child: isSettingOpen ? IconButton(
-                                  onPressed: () {
-                                    xOffset = 0;
-                                    yOffset = 0;
-                                    scaleFactor = 1;
-                                    isSettingOpen = false;
-                                  }, icon: const Icon(Icons.arrow_back , color: Colors.black,),
-                                ) : Container(
-                                  width: 40,
-                                  height: 40,
-                                  margin: const EdgeInsets.only(left: 10, right: 10),
-                                  child: ClipRRect(
-                                    borderRadius:
-                                    const BorderRadius.all(Radius.circular(20)),
-                                    child: userProvider.currentUser.img.isNotEmpty
-                                        ? FadeInImage(
-                                      fit: BoxFit.fill,
-                                      placeholder: const AssetImage(
-                                          'assets/icons/user.png'),
-                                      image: NetworkImage(
-                                          userProvider.currentUser.img),
-                                    )
-                                        : const Image(
-                                        image: AssetImage('assets/icons/user.png')),
-                                  ),
-                                )
-                            )
-                          ],
-                        ),
-                        searchField(context),
-                        Row(
-                          children: [
-                            badges.Badge(
-                              showBadge: showFavoriteBadge,
-                              position: badges.BadgePosition.topEnd(top: 10, end: 5),
-                              badgeContent: Text(
-                                favoriteBadgeAmount.toString(),
-                                style: const TextStyle(color: Colors.white),
+            AnimatedContainer(
+              transform: Matrix4.translationValues(xOffset, yOffset, 0)
+                ..scale(scaleFactor)
+                ..rotateZ(isSettingOpen ? -50 : 0),
+              duration: const Duration(milliseconds: 500),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: isSettingOpen
+                      ? const BorderRadius.all(Radius.circular(50))
+                      : const BorderRadius.all(Radius.circular(0))
+              ),
+              child: Scaffold(
+                // Appbar
+                appBar: PreferredSize(
+                  preferredSize: const Size.fromHeight(60),
+                  child: SafeArea(
+                    child: Container(
+                      padding: const EdgeInsets.all(0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      xOffset = 300;
+                                      yOffset = 190;
+                                      isSettingOpen = true;
+                                      scaleFactor = 0.8;
+                                    });
+                                  },
+                                  child: isSettingOpen ? IconButton(
+                                    onPressed: () {
+                                      xOffset = 0;
+                                      yOffset = 0;
+                                      scaleFactor = 1;
+                                      isSettingOpen = false;
+                                    }, icon: const Icon(Icons.arrow_back , color: Colors.black,),
+                                  ) : Container(
+                                    width: 40,
+                                    height: 40,
+                                    margin: const EdgeInsets.only(left: 10, right: 10),
+                                    child: ClipRRect(
+                                      borderRadius:
+                                      const BorderRadius.all(Radius.circular(20)),
+                                      child: userProvider.currentUser.img.isNotEmpty
+                                          ? FadeInImage(
+                                        fit: BoxFit.fill,
+                                        placeholder: const AssetImage(
+                                            'assets/icons/user.png'),
+                                        image: NetworkImage(
+                                            userProvider.currentUser.img),
+                                      )
+                                          : const Image(
+                                          image: AssetImage('assets/icons/user.png')),
+                                    ),
+                                  )
+                              )
+                            ],
+                          ),
+                          searchField(context),
+                          Row(
+                            children: [
+                              badges.Badge(
+                                showBadge: showFavoriteBadge,
+                                position: badges.BadgePosition.topEnd(top: 10, end: 5),
+                                badgeContent: Text(
+                                  favoriteBadgeAmount.toString(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                child: IconButton(
+                                    icon: const Icon(
+                                      Icons.favorite_border_outlined,
+                                      color: Color(0xff80221e),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                              const FavoritePage()));
+                                    }),
                               ),
-                              child: IconButton(
-                                  icon: const Icon(
-                                    Icons.favorite_border_outlined,
-                                    color: Color(0xff80221e),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                            const FavoritePage()));
-                                  }),
-                            ),
-                            badges.Badge(
-                              position: badges.BadgePosition.topEnd(top: 10, end: 5),
-                              showBadge: showCartBadge,
-                              badgeContent: Text(
-                                cartBadgeAmount.toString(),
-                                style: const TextStyle(color: Colors.white),
+                              badges.Badge(
+                                position: badges.BadgePosition.topEnd(top: 10, end: 5),
+                                showBadge: showCartBadge,
+                                badgeContent: Text(
+                                  cartBadgeAmount.toString(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                child: IconButton(
+                                    icon: const Icon(
+                                      Icons.shopping_bag_outlined,
+                                      color: Color(0xff80221e),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => const CartPage()));
+                                    }),
                               ),
-                              child: IconButton(
-                                  icon: const Icon(
-                                    Icons.shopping_bag_outlined,
-                                    color: Color(0xff80221e),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => const CartPage()));
-                                  }),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              backgroundColor: const Color(0xfff2f9fe),
-              body: SafeArea(
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: const EdgeInsets.only(bottom: 100),
-                    child: Column(mainAxisSize: MainAxisSize.max, children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          // Banner Component
-                          const BannerWidget(),
+                backgroundColor: const Color(0xfff2f9fe),
+                body: SafeArea(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      padding: const EdgeInsets.only(bottom: 100),
+                      child: Column(mainAxisSize: MainAxisSize.max, children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            // Banner Component
+                            const BannerWidget(),
 
-                          // Category Component
-                          Container(
-                              padding:
-                              const EdgeInsets.only(left: 10, top: 20, right: 10),
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "Category",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "SecularOne Regular"),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: Row(
-                                      children: const [
-                                        Text(
-                                          'View all',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.double_arrow_rounded,
+                            // Category Component
+                            Container(
+                                padding:
+                                const EdgeInsets.only(left: 10, top: 20, right: 10),
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Category",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
                                           color: Colors.black,
-                                          size: 15,
-                                        ),
-                                      ],
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "SecularOne Regular"),
                                     ),
-                                  ),
-                                ],
-                              )),
-                          getCategoryList(categoryProvider.getListCategory),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: Row(
+                                        children: const [
+                                          Text(
+                                            'View all',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.double_arrow_rounded,
+                                            color: Colors.black,
+                                            size: 15,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            getCategoryList(categoryProvider.getListCategory),
 
-                          // Product New Archive Component
-                          Container(
-                              padding:
-                              const EdgeInsets.only(left: 10, top: 20, right: 10),
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "New Archive",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "SecularOne Regular"),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: Row(
-                                      children: const [
-                                        Text(
-                                          'View all',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.double_arrow_rounded,
+                            // Product New Archive Component
+                            Container(
+                                padding:
+                                const EdgeInsets.only(left: 10, top: 20, right: 10),
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "New Archive",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
                                           color: Colors.black,
-                                          size: 15,
-                                        ),
-                                      ],
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "SecularOne Regular"),
                                     ),
-                                  ),
-                                ],
-                              )),
-                          getProductList(
-                              productProvider.getListNewArchiveProduct, context),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: Row(
+                                        children: const [
+                                          Text(
+                                            'View all',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.double_arrow_rounded,
+                                            color: Colors.black,
+                                            size: 15,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            getProductList(
+                                productProvider.getListNewArchiveProduct, context),
 
-                          // Product Top Seller Component
-                          Container(
-                              padding:
-                              const EdgeInsets.only(left: 10, top: 20, right: 10),
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "Top Seller",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "SecularOne Regular"),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: Row(
-                                      children: const [
-                                        Text(
-                                          'View all',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.double_arrow_rounded,
+                            // Product Top Seller Component
+                            Container(
+                                padding:
+                                const EdgeInsets.only(left: 10, top: 20, right: 10),
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Top Seller",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
                                           color: Colors.black,
-                                          size: 15,
-                                        ),
-                                      ],
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "SecularOne Regular"),
                                     ),
-                                  ),
-                                ],
-                              )),
-                          getTopSellerProductList(
-                              productProvider.getListTopSeller, context),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: Row(
+                                        children: const [
+                                          Text(
+                                            'View all',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.double_arrow_rounded,
+                                            color: Colors.black,
+                                            size: 15,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            getTopSellerProductList(
+                                productProvider.getListTopSeller, context),
 
-                          // Product Limited offer Component
-                          Container(
-                              padding:
-                              const EdgeInsets.only(left: 10, top: 20, right: 10),
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "Limited Offer",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "SecularOne Regular"),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: Row(
-                                      children: const [
-                                        Text(
-                                          'View all',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.double_arrow_rounded,
+                            // Product Limited offer Component
+                            Container(
+                                padding:
+                                const EdgeInsets.only(left: 10, top: 20, right: 10),
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Limited Offer",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
                                           color: Colors.black,
-                                          size: 15,
-                                        ),
-                                      ],
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "SecularOne Regular"),
                                     ),
-                                  ),
-                                ],
-                              )),
-                          getDiscountProductList(
-                              productProvider.getListDiscount, context),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: Row(
+                                        children: const [
+                                          Text(
+                                            'View all',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.double_arrow_rounded,
+                                            color: Colors.black,
+                                            size: 15,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            getDiscountProductList(
+                                productProvider.getListDiscount, context),
 
-                          // Product Best Review Component
-                          Container(
-                              padding:
-                              const EdgeInsets.only(left: 10, top: 20, right: 10),
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "Best Review",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "SecularOne Regular"),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: Row(
-                                      children: const [
-                                        Text(
-                                          'View all',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.double_arrow_rounded,
+                            // Product Best Review Component
+                            Container(
+                                padding:
+                                const EdgeInsets.only(left: 10, top: 20, right: 10),
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Best Review",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
                                           color: Colors.black,
-                                          size: 15,
-                                        ),
-                                      ],
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "SecularOne Regular"),
                                     ),
-                                  ),
-                                ],
-                              )),
-                          getReviewProductList(
-                              productProvider.getListReview, context),
-                        ],
-                      )
-                    ]),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: Row(
+                                        children: const [
+                                          Text(
+                                            'View all',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.double_arrow_rounded,
+                                            color: Colors.black,
+                                            size: 15,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            getReviewProductList(
+                                productProvider.getListReview, context),
+                          ],
+                        )
+                      ]),
+                    ),
                   ),
                 ),
+                bottomNavigationBar: getFooter(0, context),
               ),
-              bottomNavigationBar: getFooter(0, context),
             ),
-          ),
-        ],
-      )
+          ],
+        )
     );
   }
 
@@ -481,52 +481,52 @@ class _HomePageState extends State<HomePage> {
             children: produceList
                 .map(
                   (element) => Container(
-                    //margin: const EdgeInsets.symmetric(horizontal: 5),
-                    alignment: Alignment.center,
-                    //padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.only(top: 20, right: 10),
-                    width: 200,
-                    height: 260,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.white,
-                    ),
+                //margin: const EdgeInsets.symmetric(horizontal: 5),
+                alignment: Alignment.center,
+                //padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(top: 20, right: 10),
+                width: 200,
+                height: 260,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white,
+                ),
 
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ProductDetailPage(
-                                  productID: element,
-                                )));
-                      },
-                      child: Stack(
-                        children: [
-                          // img
-                          Container(
-                            width: 200,
-                            height: 170,
-                            padding: const EdgeInsets.all(10),
-                            child: Hero(
-                              tag: element.id,
-                              child: FadeInImage(
-                                image: AssetImage(element.img),
-                                fadeInDuration:
-                                    const Duration(milliseconds: 2000),
-                                fit: BoxFit.contain,
-                                placeholder: const AssetImage(
-                                    "assets/icons/spinner170.gif"),
-                              ),
-                            ),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ProductDetailPage(
+                          productID: element,
+                        )));
+                  },
+                  child: Stack(
+                    children: [
+                      // img
+                      Container(
+                        width: 200,
+                        height: 170,
+                        padding: const EdgeInsets.all(10),
+                        child: Hero(
+                          tag: element.id,
+                          child: FadeInImage(
+                            image: AssetImage(element.img),
+                            fadeInDuration:
+                            const Duration(milliseconds: 2000),
+                            fit: BoxFit.contain,
+                            placeholder: const AssetImage(
+                                "assets/icons/spinner170.gif"),
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 150),
-                            padding: const EdgeInsets.all(5),
-                            height: 260,
-                            alignment: Alignment.bottomCenter,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    child: Column(
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 150),
+                        padding: const EdgeInsets.all(5),
+                        height: 260,
+                        alignment: Alignment.bottomCenter,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     // name product
@@ -600,124 +600,124 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ],
                                 )),
-                                Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Cart cart = Cart(
-                                            imgProduct: element.img,
-                                            nameProduct: element.name,
-                                            color: element
-                                                .productItemList[0].color.keys
-                                                .elementAt(0),
-                                            quantity: 1,
-                                            idProduct:
-                                                element.productItemList[0].id,
-                                            price: element.currentPrice);
+                            Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Cart cart = Cart(
+                                        imgProduct: element.img,
+                                        nameProduct: element.name,
+                                        color: element
+                                            .productItemList[0].color.keys
+                                            .elementAt(0),
+                                        quantity: 1,
+                                        idProduct:
+                                        element.productItemList[0].id,
+                                        price: element.currentPrice);
 
-                                        handler.insertCart(cart);
-                                      },
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        height: 40,
-                                        width: 40,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 1,
-                                              color: const Color(0xff81220e)),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(20)),
-                                        ),
-                                        child: const Icon(
-                                          Icons.shopping_cart,
-                                          color: Color(0xff81220e),
-                                          size: 25,
-                                        ),
-                                      ),
+                                    handler.insertCart(cart);
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1,
+                                          color: const Color(0xff81220e)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(20)),
                                     ),
-                                    const SizedBox(
-                                      height: 20,
+                                    child: const Icon(
+                                      Icons.shopping_cart,
+                                      color: Color(0xff81220e),
+                                      size: 25,
                                     ),
-                                    AutoSizeText(
-                                      getDecorPrice(element.currentPrice),
-                                      maxFontSize: 15,
-                                      minFontSize: 12,
-                                      textAlign: TextAlign.start,
-                                      style: const TextStyle(
-                                        color: Color(0xff80221e),
-                                        fontFamily: "Roboto",
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                AutoSizeText(
+                                  getDecorPrice(element.currentPrice),
+                                  maxFontSize: 15,
+                                  minFontSize: 12,
+                                  textAlign: TextAlign.start,
+                                  style: const TextStyle(
+                                    color: Color(0xff80221e),
+                                    fontFamily: "Roboto",
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(left: 5),
-                                width: 40,
-                                height: 40,
-                                alignment: Alignment.center,
-                                child: const Image(
-                                  image: AssetImage("assets/icons/new.png"),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              IconButton(
-                                icon: getIconFavorite(
-                                    element.id, listFavorite, element),
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) {
-                                        return Dialog(
-                                          // The background color
-                                          backgroundColor:
-                                              const Color(0xff560f20),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 20, horizontal: 20),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const [
-                                                SizedBox(
-                                                  height: 20,
-                                                ),
-                                                CircularProgressIndicator(
-                                                  color: Color(0xffecd8e0),
-                                                ),
-                                                SizedBox(
-                                                  height: 20,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      });
-
-                                  var favorite = Favorite(
-                                    imgProduct: element.img,
-                                    nameProduct: element.name,
-                                    idProduct: element.id,
-                                    price: element.currentPrice,
-                                  );
-
-                                  handler.insertFavorite(favorite).then((value) {
-                                    Navigator.pop(context);
-                                  });
-                                },
-                              ),
-                            ],
-                          )
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(left: 5),
+                            width: 40,
+                            height: 40,
+                            alignment: Alignment.center,
+                            child: const Image(
+                              image: AssetImage("assets/icons/new.png"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          IconButton(
+                            icon: getIconFavorite(
+                                element.id, listFavorite, element),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    return Dialog(
+                                      // The background color
+                                      backgroundColor:
+                                      const Color(0xff560f20),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 20, horizontal: 20),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: const [
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            CircularProgressIndicator(
+                                              color: Color(0xffecd8e0),
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
+
+                              var favorite = Favorite(
+                                imgProduct: element.img,
+                                nameProduct: element.name,
+                                idProduct: element.id,
+                                price: element.currentPrice,
+                              );
+
+                              handler.insertFavorite(favorite).then((value) {
+                                Navigator.pop(context);
+                              });
+                            },
+                          ),
+                        ],
+                      )
+                    ],
                   ),
-                )
+                ),
+              ),
+            )
                 .toList(),
           ),
         ),
@@ -734,21 +734,21 @@ class _HomePageState extends State<HomePage> {
             children: [1, 2]
                 .map(
                   (element) => Container(
-                    //margin: const EdgeInsets.symmetric(horizontal: 5),
-                    alignment: Alignment.center,
-                    //padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.only(top: 20, right: 10),
-                    width: 200,
-                    height: 260,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.white,
-                    ),
-                    child: Center(
-                      child: Image.asset("assets/icons/spinner170.gif"),
-                    ),
-                  ),
-                )
+                //margin: const EdgeInsets.symmetric(horizontal: 5),
+                alignment: Alignment.center,
+                //padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(top: 20, right: 10),
+                width: 200,
+                height: 260,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white,
+                ),
+                child: Center(
+                  child: Image.asset("assets/icons/spinner170.gif"),
+                ),
+              ),
+            )
                 .toList(),
           ),
         ),
@@ -770,47 +770,47 @@ class _HomePageState extends State<HomePage> {
             children: produceList
                 .map(
                   (element) => Container(
-                    //margin: const EdgeInsets.symmetric(horizontal: 5),
-                    alignment: Alignment.center,
-                    //padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.only(top: 20, right: 10),
-                    width: 200,
-                    height: 260,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.white,
-                    ),
+                //margin: const EdgeInsets.symmetric(horizontal: 5),
+                alignment: Alignment.center,
+                //padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(top: 20, right: 10),
+                width: 200,
+                height: 260,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white,
+                ),
 
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                ProductDetailPage(productID: element)));
-                      },
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: 200,
-                            height: 170,
-                            padding: const EdgeInsets.all(10),
-                            child: FadeInImage(
-                              image: AssetImage(element.img),
-                              fit: BoxFit.contain,
-                              fadeInDuration:
-                                  const Duration(milliseconds: 2000),
-                              placeholder: const AssetImage(
-                                  "assets/icons/spinner170.gif"),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 150),
-                            padding: const EdgeInsets.all(5),
-                            height: 260,
-                            alignment: Alignment.bottomCenter,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    child: Column(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            ProductDetailPage(productID: element)));
+                  },
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: 200,
+                        height: 170,
+                        padding: const EdgeInsets.all(10),
+                        child: FadeInImage(
+                          image: AssetImage(element.img),
+                          fit: BoxFit.contain,
+                          fadeInDuration:
+                          const Duration(milliseconds: 2000),
+                          placeholder: const AssetImage(
+                              "assets/icons/spinner170.gif"),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 150),
+                        padding: const EdgeInsets.all(5),
+                        height: 260,
+                        alignment: Alignment.bottomCenter,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     // name product
@@ -884,96 +884,96 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ],
                                 )),
-                                Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Cart cart = Cart(
-                                            imgProduct: element.img,
-                                            nameProduct: element.name,
-                                            color: element
-                                                .productItemList[0].color.keys
-                                                .elementAt(0),
-                                            quantity: 1,
-                                            idProduct:
-                                                element.productItemList[0].id,
-                                            price: element.currentPrice);
+                            Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Cart cart = Cart(
+                                        imgProduct: element.img,
+                                        nameProduct: element.name,
+                                        color: element
+                                            .productItemList[0].color.keys
+                                            .elementAt(0),
+                                        quantity: 1,
+                                        idProduct:
+                                        element.productItemList[0].id,
+                                        price: element.currentPrice);
 
-                                        handler.insertCart(cart);
-                                      },
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        height: 40,
-                                        width: 40,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 1,
-                                              color: const Color(0xff81220e)),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(20)),
-                                        ),
-                                        child: const Icon(
-                                          Icons.shopping_cart,
-                                          color: Color(0xff81220e),
-                                          size: 25,
-                                        ),
-                                      ),
+                                    handler.insertCart(cart);
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1,
+                                          color: const Color(0xff81220e)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(20)),
                                     ),
-                                    const SizedBox(
-                                      height: 20,
+                                    child: const Icon(
+                                      Icons.shopping_cart,
+                                      color: Color(0xff81220e),
+                                      size: 25,
                                     ),
-                                    AutoSizeText(
-                                      getDecorPrice(element.currentPrice),
-                                      maxFontSize: 15,
-                                      minFontSize: 12,
-                                      textAlign: TextAlign.start,
-                                      style: const TextStyle(
-                                        color: Color(0xff80221e),
-                                        fontFamily: "Roboto",
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                AutoSizeText(
+                                  getDecorPrice(element.currentPrice),
+                                  maxFontSize: 15,
+                                  minFontSize: 12,
+                                  textAlign: TextAlign.start,
+                                  style: const TextStyle(
+                                    color: Color(0xff80221e),
+                                    fontFamily: "Roboto",
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(left: 5),
-                                width: 40,
-                                height: 40,
-                                alignment: Alignment.center,
-                                child: const Image(
-                                  image:
-                                      AssetImage("assets/icons/hot-sale.png"),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              IconButton(
-                                icon: getIconFavorite(
-                                    element.id, listFavorite, element),
-                                onPressed: () {
-                                  var favorite = Favorite(
-                                    imgProduct: element.img,
-                                    nameProduct: element.name,
-                                    idProduct: element.id,
-                                    price: element.currentPrice,
-                                  );
-                                  handler.insertFavorite(favorite).then((value) {
-                                    Navigator.pop(context);
-                                  });
-                                },
-                              ),
-                            ],
-                          )
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(left: 5),
+                            width: 40,
+                            height: 40,
+                            alignment: Alignment.center,
+                            child: const Image(
+                              image:
+                              AssetImage("assets/icons/hot-sale.png"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          IconButton(
+                            icon: getIconFavorite(
+                                element.id, listFavorite, element),
+                            onPressed: () {
+                              var favorite = Favorite(
+                                imgProduct: element.img,
+                                nameProduct: element.name,
+                                idProduct: element.id,
+                                price: element.currentPrice,
+                              );
+                              handler.insertFavorite(favorite).then((value) {
+                                Navigator.pop(context);
+                              });
+                            },
+                          ),
+                        ],
+                      )
+                    ],
                   ),
-                )
+                ),
+              ),
+            )
                 .toList(),
           ),
         ),
@@ -990,21 +990,21 @@ class _HomePageState extends State<HomePage> {
             children: [1, 2]
                 .map(
                   (element) => Container(
-                    //margin: const EdgeInsets.symmetric(horizontal: 5),
-                    alignment: Alignment.center,
-                    //padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.only(top: 20, right: 10),
-                    width: 200,
-                    height: 260,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.white,
-                    ),
-                    child: Center(
-                      child: Image.asset("assets/icons/spinner170.gif"),
-                    ),
-                  ),
-                )
+                //margin: const EdgeInsets.symmetric(horizontal: 5),
+                alignment: Alignment.center,
+                //padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(top: 20, right: 10),
+                width: 200,
+                height: 260,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white,
+                ),
+                child: Center(
+                  child: Image.asset("assets/icons/spinner170.gif"),
+                ),
+              ),
+            )
                 .toList(),
           ),
         ),
@@ -1026,47 +1026,47 @@ class _HomePageState extends State<HomePage> {
             children: produceList
                 .map(
                   (element) => Container(
-                    //margin: const EdgeInsets.symmetric(horizontal: 5),
-                    alignment: Alignment.center,
-                    //padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.only(top: 20, right: 10),
-                    width: 200,
-                    height: 260,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.white,
-                    ),
+                //margin: const EdgeInsets.symmetric(horizontal: 5),
+                alignment: Alignment.center,
+                //padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(top: 20, right: 10),
+                width: 200,
+                height: 260,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white,
+                ),
 
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                ProductDetailPage(productID: element)));
-                      },
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: 200,
-                            height: 170,
-                            padding: const EdgeInsets.all(10),
-                            child: FadeInImage(
-                              image: AssetImage(element.img),
-                              fit: BoxFit.contain,
-                              fadeInDuration:
-                                  const Duration(milliseconds: 2000),
-                              placeholder: const AssetImage(
-                                  "assets/icons/spinner170.gif"),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 150),
-                            padding: const EdgeInsets.all(5),
-                            height: 260,
-                            alignment: Alignment.bottomCenter,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    child: Column(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            ProductDetailPage(productID: element)));
+                  },
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: 200,
+                        height: 170,
+                        padding: const EdgeInsets.all(10),
+                        child: FadeInImage(
+                          image: AssetImage(element.img),
+                          fit: BoxFit.contain,
+                          fadeInDuration:
+                          const Duration(milliseconds: 2000),
+                          placeholder: const AssetImage(
+                              "assets/icons/spinner170.gif"),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 150),
+                        padding: const EdgeInsets.all(5),
+                        height: 260,
+                        alignment: Alignment.bottomCenter,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     // name product
@@ -1142,127 +1142,127 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ],
                                 )),
-                                Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Cart cart = Cart(
-                                            imgProduct: element.img,
-                                            nameProduct: element.name,
-                                            color: element
-                                                .productItemList[0].color.keys
-                                                .elementAt(0),
-                                            quantity: 1,
-                                            idProduct:
-                                                element.productItemList[0].id,
-                                            price: element.currentPrice);
+                            Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Cart cart = Cart(
+                                        imgProduct: element.img,
+                                        nameProduct: element.name,
+                                        color: element
+                                            .productItemList[0].color.keys
+                                            .elementAt(0),
+                                        quantity: 1,
+                                        idProduct:
+                                        element.productItemList[0].id,
+                                        price: element.currentPrice);
 
-                                        handler.insertCart(cart);
-                                      },
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        height: 40,
-                                        width: 40,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 1,
-                                              color: const Color(0xff81220e)),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(20)),
-                                        ),
-                                        child: const Icon(
-                                          Icons.shopping_cart,
-                                          color: Color(0xff81220e),
-                                          size: 25,
-                                        ),
-                                      ),
+                                    handler.insertCart(cart);
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1,
+                                          color: const Color(0xff81220e)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(20)),
                                     ),
-                                    const SizedBox(
-                                      height: 20,
+                                    child: const Icon(
+                                      Icons.shopping_cart,
+                                      color: Color(0xff81220e),
+                                      size: 25,
                                     ),
-                                    AutoSizeText(
-                                      getDecorPrice(element.rootPrice),
-                                      maxFontSize: 12,
-                                      minFontSize: 12,
-                                      textAlign: TextAlign.start,
-                                      style: const TextStyle(
-                                        decoration: TextDecoration.lineThrough,
-                                        color: Colors.grey,
-                                        fontFamily: "Roboto",
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    AutoSizeText(
-                                      getDecorPrice(element.currentPrice),
-                                      maxFontSize: 15,
-                                      minFontSize: 12,
-                                      textAlign: TextAlign.start,
-                                      style: const TextStyle(
-                                        color: Color(0xff80221e),
-                                        fontFamily: "Roboto",
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                AutoSizeText(
+                                  getDecorPrice(element.rootPrice),
+                                  maxFontSize: 12,
+                                  minFontSize: 12,
+                                  textAlign: TextAlign.start,
+                                  style: const TextStyle(
+                                    decoration: TextDecoration.lineThrough,
+                                    color: Colors.grey,
+                                    fontFamily: "Roboto",
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                AutoSizeText(
+                                  getDecorPrice(element.currentPrice),
+                                  maxFontSize: 15,
+                                  minFontSize: 12,
+                                  textAlign: TextAlign.start,
+                                  style: const TextStyle(
+                                    color: Color(0xff80221e),
+                                    fontFamily: "Roboto",
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(10),
-                                child: Transform.rotate(
-                                  angle: 380,
-                                  child: SizedBox(
-                                    height: 30,
-                                    width: 60,
-                                    child: CustomPaint(
-                                      painter: PriceTagPaint(),
-                                      child: Center(
-                                        child: Transform.rotate(
-                                          angle: 380,
-                                          child: Text(
-                                            returnDiscountPrice(
-                                                element.rootPrice,
-                                                element.currentPrice),
-                                            style: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: Transform.rotate(
+                              angle: 380,
+                              child: SizedBox(
+                                height: 30,
+                                width: 60,
+                                child: CustomPaint(
+                                  painter: PriceTagPaint(),
+                                  child: Center(
+                                    child: Transform.rotate(
+                                      angle: 380,
+                                      child: Text(
+                                        returnDiscountPrice(
+                                            element.rootPrice,
+                                            element.currentPrice),
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                              IconButton(
-                                icon: getIconFavorite(
-                                    element.id, listFavorite, element),
-                                onPressed: () {
-                                  var favorite = Favorite(
-                                    imgProduct: element.img,
-                                    nameProduct: element.name,
-                                    idProduct: element.id,
-                                    price: element.currentPrice,
-                                  );
-                                  handler.insertFavorite(favorite).then((value) {
-                                    Navigator.pop(context);
-                                  });
-                                },
-                              ),
-                            ],
-                          )
+                            ),
+                          ),
+                          IconButton(
+                            icon: getIconFavorite(
+                                element.id, listFavorite, element),
+                            onPressed: () {
+                              var favorite = Favorite(
+                                imgProduct: element.img,
+                                nameProduct: element.name,
+                                idProduct: element.id,
+                                price: element.currentPrice,
+                              );
+                              handler.insertFavorite(favorite).then((value) {
+                                Navigator.pop(context);
+                              });
+                            },
+                          ),
                         ],
-                      ),
-                    ),
+                      )
+                    ],
                   ),
-                )
+                ),
+              ),
+            )
                 .toList(),
           ),
         ),
@@ -1279,21 +1279,21 @@ class _HomePageState extends State<HomePage> {
             children: [1, 2]
                 .map(
                   (element) => Container(
-                    //margin: const EdgeInsets.symmetric(horizontal: 5),
-                    alignment: Alignment.center,
-                    //padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.only(top: 20, right: 10),
-                    width: 200,
-                    height: 260,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.white,
-                    ),
-                    child: Center(
-                      child: Image.asset("assets/icons/spinner170.gif"),
-                    ),
-                  ),
-                )
+                //margin: const EdgeInsets.symmetric(horizontal: 5),
+                alignment: Alignment.center,
+                //padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(top: 20, right: 10),
+                width: 200,
+                height: 260,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white,
+                ),
+                child: Center(
+                  child: Image.asset("assets/icons/spinner170.gif"),
+                ),
+              ),
+            )
                 .toList(),
           ),
         ),
@@ -1314,45 +1314,45 @@ class _HomePageState extends State<HomePage> {
             children: produceList
                 .map(
                   (element) => Container(
-                    //margin: const EdgeInsets.symmetric(horizontal: 5),
-                    alignment: Alignment.center,
-                    //padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.only(top: 20, right: 10),
-                    width: 200,
-                    height: 260,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.white,
-                    ),
+                //margin: const EdgeInsets.symmetric(horizontal: 5),
+                alignment: Alignment.center,
+                //padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(top: 20, right: 10),
+                width: 200,
+                height: 260,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white,
+                ),
 
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                ProductDetailPage(productID: element)));
-                      },
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: 200,
-                            height: 170,
-                            padding: const EdgeInsets.all(10),
-                            child: FadeInImage(
-                              image: AssetImage(element.img),
-                              fit: BoxFit.contain,
-                              placeholder: const AssetImage(
-                                  "assets/icons/spinner170.gif"),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 150),
-                            padding: const EdgeInsets.all(5),
-                            height: 260,
-                            alignment: Alignment.bottomCenter,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    child: Column(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            ProductDetailPage(productID: element)));
+                  },
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: 200,
+                        height: 170,
+                        padding: const EdgeInsets.all(10),
+                        child: FadeInImage(
+                          image: AssetImage(element.img),
+                          fit: BoxFit.contain,
+                          placeholder: const AssetImage(
+                              "assets/icons/spinner170.gif"),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 150),
+                        padding: const EdgeInsets.all(5),
+                        height: 260,
+                        alignment: Alignment.bottomCenter,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     // name product
@@ -1428,98 +1428,98 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ],
                                 )),
-                                Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Cart cart = Cart(
-                                            imgProduct: element.img,
-                                            nameProduct: element.name,
-                                            color: element
-                                                .productItemList[0].color.keys
-                                                .elementAt(0),
-                                            quantity: 1,
-                                            idProduct:
-                                                element.productItemList[0].id,
-                                            price: element.currentPrice);
+                            Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Cart cart = Cart(
+                                        imgProduct: element.img,
+                                        nameProduct: element.name,
+                                        color: element
+                                            .productItemList[0].color.keys
+                                            .elementAt(0),
+                                        quantity: 1,
+                                        idProduct:
+                                        element.productItemList[0].id,
+                                        price: element.currentPrice);
 
-                                        handler.insertCart(cart);
-                                      },
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        height: 40,
-                                        width: 40,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 1,
-                                              color: const Color(0xff81220e)),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(20)),
-                                        ),
-                                        child: const Icon(
-                                          Icons.shopping_cart,
-                                          color: Color(0xff81220e),
-                                          size: 25,
-                                        ),
-                                      ),
+                                    handler.insertCart(cart);
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1,
+                                          color: const Color(0xff81220e)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(20)),
                                     ),
-                                    const SizedBox(
-                                      height: 20,
+                                    child: const Icon(
+                                      Icons.shopping_cart,
+                                      color: Color(0xff81220e),
+                                      size: 25,
                                     ),
-                                    AutoSizeText(
-                                      getDecorPrice(element.currentPrice),
-                                      maxFontSize: 15,
-                                      minFontSize: 12,
-                                      textAlign: TextAlign.start,
-                                      style: const TextStyle(
-                                        color: Color(0xff80221e),
-                                        fontFamily: "Roboto",
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                AutoSizeText(
+                                  getDecorPrice(element.currentPrice),
+                                  maxFontSize: 15,
+                                  minFontSize: 12,
+                                  textAlign: TextAlign.start,
+                                  style: const TextStyle(
+                                    color: Color(0xff80221e),
+                                    fontFamily: "Roboto",
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(left: 5),
-                                width: 40,
-                                height: 40,
-                                alignment: Alignment.center,
-                                child: const Image(
-                                  image: AssetImage("assets/icons/best.png"),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              IconButton(
-                                icon: getIconFavorite(
-                                    element.id, listFavorite, element),
-                                onPressed: () {
-                                  setState(() {
-                                    var favorite = Favorite(
-                                      imgProduct: element.img,
-                                      nameProduct: element.name,
-                                      idProduct: element.id,
-                                      price: element.currentPrice,
-                                    );
-
-                                    handler.insertFavorite(favorite).then((value) {
-                                      Navigator.pop(context);
-                                    });
-                                  });
-                                },
-                              ),
-                            ],
-                          )
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(left: 5),
+                            width: 40,
+                            height: 40,
+                            alignment: Alignment.center,
+                            child: const Image(
+                              image: AssetImage("assets/icons/best.png"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          IconButton(
+                            icon: getIconFavorite(
+                                element.id, listFavorite, element),
+                            onPressed: () {
+                              setState(() {
+                                var favorite = Favorite(
+                                  imgProduct: element.img,
+                                  nameProduct: element.name,
+                                  idProduct: element.id,
+                                  price: element.currentPrice,
+                                );
+
+                                handler.insertFavorite(favorite).then((value) {
+                                  Navigator.pop(context);
+                                });
+                              });
+                            },
+                          ),
+                        ],
+                      )
+                    ],
                   ),
-                )
+                ),
+              ),
+            )
                 .toList(),
           ),
         ),
@@ -1536,21 +1536,21 @@ class _HomePageState extends State<HomePage> {
             children: [1, 2]
                 .map(
                   (element) => Container(
-                    //margin: const EdgeInsets.symmetric(horizontal: 5),
-                    alignment: Alignment.center,
-                    //padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.only(top: 20, right: 10),
-                    width: 200,
-                    height: 260,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.white,
-                    ),
-                    child: Center(
-                      child: Image.asset("assets/icons/spinner170.gif"),
-                    ),
-                  ),
-                )
+                //margin: const EdgeInsets.symmetric(horizontal: 5),
+                alignment: Alignment.center,
+                //padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(top: 20, right: 10),
+                width: 200,
+                height: 260,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white,
+                ),
+                child: Center(
+                  child: Image.asset("assets/icons/spinner170.gif"),
+                ),
+              ),
+            )
                 .toList(),
           ),
         ),
