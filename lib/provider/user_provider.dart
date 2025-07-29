@@ -24,7 +24,7 @@ class UserProvider extends ChangeNotifier {
     for (var re in listReview) {
       try {
         DocumentSnapshot value = await FirebaseFirestore.instance
-            .collection('users') // Sửa từ 'user' thành 'users' (khớp collection name)
+            .collection('user')
             .doc(re.idUser)
             .get();
         if (value.exists) {
@@ -58,7 +58,7 @@ class UserProvider extends ChangeNotifier {
 
     try {
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-          .collection('users') // Sửa từ 'user' thành 'users'
+          .collection('user')
           .doc(id)
           .get();
       if (documentSnapshot.exists) {
@@ -100,7 +100,7 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> updateUser(UserSQ user) async {
     try {
-      await FirebaseFirestore.instance.collection('users').doc(user.idUser).set(user.toMap());
+      await FirebaseFirestore.instance.collection('user').doc(user.idUser).set(user.toMap());
       await getDocCurrentUser(user.idUser); // Cập nhật lại sau khi lưu
     } catch (e) {
       print('Error updating user: $e');

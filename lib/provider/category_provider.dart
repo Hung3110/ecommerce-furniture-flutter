@@ -14,10 +14,10 @@ class CategoryProvider with ChangeNotifier {
     List<Category> newList = [];
     List<CategoryItem> newItemList = [];
 
-    QuerySnapshot categorySnaphot =
+    QuerySnapshot categorySnapshot =
         await FirebaseFirestore.instance.collection("category").get();
 
-    for (var doc in categorySnaphot.docs) {
+    for (var doc in categorySnapshot.docs) {
 
       List<CategoryItem> item = [];
       await FirebaseFirestore.instance.collection("category").doc(doc.reference.id).collection("category-item").get().then((value) {
