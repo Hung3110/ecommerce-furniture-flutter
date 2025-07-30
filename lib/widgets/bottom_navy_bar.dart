@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:furniture_app_project/screens/order.dart';
 import 'package:furniture_app_project/screens/search.dart';
 import 'package:furniture_app_project/screens/test.dart';
+
 import '../screens/home.dart';
 import '../screens/notification.dart';
-import 'package:flutter/material.dart';
 
 var bottomNavigationBarItems = <BottomNavigationBarItem>[
   const BottomNavigationBarItem(
@@ -36,24 +37,24 @@ var bottomNavigationBarItems = <BottomNavigationBarItem>[
     ),
     label: "Order",
   ),
-  const BottomNavigationBarItem(
-    backgroundColor: Color(0x00ffffff),
-    activeIcon: Icon(
-      Icons.notifications,
-      color: Color(0xff80221e),
-    ),
-    icon: Icon(Icons.notifications_outlined, color: Colors.black),
-    label: "Notification",
-  ),
-  const BottomNavigationBarItem(
-    backgroundColor: Color(0x00ffffff),
-    icon: Icon(Icons.account_circle_outlined, color: Colors.black),
-    activeIcon: Icon(
-      Icons.account_circle,
-      color: Color(0xff80221e),
-    ),
-    label: "Account",
-  ),
+  // const BottomNavigationBarItem(
+  //   backgroundColor: Color(0x00ffffff),
+  //   activeIcon: Icon(
+  //     Icons.notifications,
+  //     color: Color(0xff80221e),
+  //   ),
+  //   icon: Icon(Icons.notifications_outlined, color: Colors.black),
+  //   label: "Notification",
+  // ),
+  // const BottomNavigationBarItem(
+  //   backgroundColor: Color(0x00ffffff),
+  //   icon: Icon(Icons.account_circle_outlined, color: Colors.black),
+  //   activeIcon: Icon(
+  //     Icons.account_circle,
+  //     color: Color(0xff80221e),
+  //   ),
+  //   label: "Account",
+  // ),
 ];
 
 Widget getFooter(int selectedItem, BuildContext context) {

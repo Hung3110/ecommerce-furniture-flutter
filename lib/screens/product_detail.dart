@@ -1,18 +1,19 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:furniture_app_project/widgets/bottom_navy_bar.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../models/cart_model.dart';
 import '../models/favorite_model.dart';
+import '../models/product_model.dart';
 import '../models/user_model.dart';
 import '../provider/user_provider.dart';
 import '../screens/cart.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import '../models/cart_model.dart';
-import '../models/product_model.dart';
 import '../services/DatabaseHandler.dart';
-import 'package:badges/badges.dart' as badges;
 
 class ProductDetailPage extends StatefulWidget {
   const ProductDetailPage({super.key, required this.productID});
@@ -106,7 +107,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           return true;
         },
         child: Scaffold(
-          key: _key,
+          // key: _key,
           backgroundColor: const Color(0xfff2f9fe),
           appBar: AppBar(
             automaticallyImplyLeading: true,
@@ -215,7 +216,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                                 height: 100,
                                 margin: const EdgeInsets.only(bottom: 10),
                                 child: Image(
-                                  image: AssetImage(productItem.img[index]),
+                                  image: NetworkImage(productItem.img[index]),
                                   fit: BoxFit.fill,
                                 ),
                               ));
@@ -231,7 +232,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                     child: Hero(
                       tag: widget.productID.id,
                       child: Image(
-                        image: AssetImage(imageMainCurrent),
+                        image: NetworkImage(imageMainCurrent),
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -367,14 +368,12 @@ class _ProductDetailPageState extends State<ProductDetailPage>
           width: MediaQuery.of(context).size.width / 2,
           height: 150,
           child: Stack(children: [
-
             // Favorite
             Positioned(
               bottom: 50,
               left: MediaQuery.of(context).size.width / 3,
               child: GestureDetector(
                 onTap: () {
-
                   showDialog(
                       context: context,
                       builder: (_) {
@@ -382,19 +381,25 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                           // The background color
                           backgroundColor: const Color(0xff560f20),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 20),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 20),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: const [
-                                SizedBox(height: 20,),
-                                CircularProgressIndicator(color: Color(0xffecd8e0),),
-                                SizedBox(height: 20,),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                CircularProgressIndicator(
+                                  color: Color(0xffecd8e0),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
                               ],
                             ),
                           ),
                         );
-                      }
-                  );
+                      });
 
                   var fav = Favorite(
                       imgProduct: productItem.img[0],
@@ -407,13 +412,14 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                   Navigator.pop(context);
                 },
                 child: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(25)),
-                      color: Colors.white,
-                    ),
-                    child: getIconFavorite(widget.productID.id, handler.getListFavorite,widget.productID),
+                  width: 50,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                    color: Colors.white,
+                  ),
+                  child: getIconFavorite(widget.productID.id,
+                      handler.getListFavorite, widget.productID),
                 ),
               ),
             ),
@@ -427,8 +433,9 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                       imgProduct: productItem.img[0],
                       nameProduct: widget.productID.name,
                       color: productItem.color.keys.elementAt(0),
-                      quantity: 1, idProduct: productItem.id, price:widget.productID.currentPrice
-                  );
+                      quantity: 1,
+                      idProduct: productItem.id,
+                      price: widget.productID.currentPrice);
 
                   handler.insertCart(cartNew);
                   //handler.retrieveCarts();
@@ -504,7 +511,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(10)),
                                           child: Image(
-                                            image: AssetImage(e),
+                                            image: NetworkImage(e),
                                             fit: BoxFit.fill,
                                           ),
                                         ),
@@ -1064,105 +1071,112 @@ class _ProductDetailPageState extends State<ProductDetailPage>
     if (listUser.isNotEmpty) {
       return Container(
         padding: const EdgeInsets.all(10),
-         child:  ListView.builder(
-           shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: widget.productID.reviewList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  margin: const EdgeInsets.all(10),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
+        child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            itemCount: widget.productID.reviewList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      border: Border.all(
-                        color: Colors.grey.withOpacity(0.2),
-                        width: 2,
-                      )
-                  ),
-
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Avatar - name - date
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 50,
-                                height: 50,
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(25)),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.all(Radius.circular(50)),
-                                  child: Image.network(
-                                    listUser[index].img,
-                                    fit: BoxFit.fill,
-                                  ),
+                    border: Border.all(
+                      color: Colors.grey.withOpacity(0.2),
+                      width: 2,
+                    )),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Avatar - name - date
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                              ),
+                              child: ClipRRect(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(50)),
+                                child: Image.network(
+                                  'https://images.unsplash.com/photo-1524638431109-93d95c968f03?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                                  fit: BoxFit.fill,
                                 ),
                               ),
-                              const SizedBox(width: 10,),
-                              // Name
-                              Text(listUser[index].fullName),
-                            ],
-                          ),
-                          Text(
-                              getDate(widget.productID.reviewList[index].date) ),
-                        ],
-                      ),
-                      const SizedBox(height: 5,),
-                      // Star
-                      RatingBar.builder(
-                        ignoreGestures: true,
-                        initialRating: widget.productID.reviewList[index].star,
-                        itemSize: 18,
-                        minRating: 0,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        unratedColor: Colors.grey,
-                        itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
-                        itemBuilder: (context, _) => const Icon(
-                          Icons.star,
-                          color: Colors.amber,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            // Name
+                            Text(listUser[index].fullName),
+                          ],
                         ),
-                        onRatingUpdate: (rating) {
-                          //print(rating);
-                        },
+                        Text(getDate(widget.productID.reviewList[index].date)),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    // Star
+                    RatingBar.builder(
+                      ignoreGestures: true,
+                      initialRating: widget.productID.reviewList[index].star,
+                      itemSize: 18,
+                      minRating: 0,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      unratedColor: Colors.grey,
+                      itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
+                      itemBuilder: (context, _) => const Icon(
+                        Icons.star,
+                        color: Colors.amber,
                       ),
-                      const SizedBox(height: 5,),
-                      // Content
-                      Text(widget.productID.reviewList[index].message),
-                      const SizedBox(height: 5,),
-                      // Image
-                      SizedBox(
-                        height: 120,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount:
-                            widget.productID.reviewList[index].img.length,
-                            itemBuilder: (BuildContext context, int e) {
-                              return SizedBox(
-                                width: 100,
-                                height: 100,
-                                child: FadeInImage(
-                                  placeholder: const AssetImage(
-                                      "assets/icons/spinner100.gif"),
-                                  image: NetworkImage(widget
-                                      .productID.reviewList[index].img[e]),
-                                  //fit: BoxFit.fill,
-                                ),
-                              );
-                            }),
-                      )
-                    ],
-                  ),
-                );
-              }),
+                      onRatingUpdate: (rating) {
+                        //print(rating);
+                      },
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    // Content
+                    Text(widget.productID.reviewList[index].message),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    // Image
+                    SizedBox(
+                      height: 120,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount:
+                              widget.productID.reviewList[index].img.length,
+                          itemBuilder: (BuildContext context, int e) {
+                            return SizedBox(
+                              width: 100,
+                              height: 100,
+                              child: FadeInImage(
+                                placeholder: const AssetImage(
+                                    "assets/icons/spinner100.gif"),
+                                image: NetworkImage(
+                                    widget.productID.reviewList[index].img[e]),
+                                //fit: BoxFit.fill,
+                              ),
+                            );
+                          }),
+                    )
+                  ],
+                ),
+              );
+            }),
       );
     } else {
       return const Center(
@@ -1360,5 +1374,3 @@ class RPSCustomPainter extends CustomPainter {
     return true;
   }
 }
-
-

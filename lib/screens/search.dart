@@ -1,23 +1,23 @@
-
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:furniture_app_project/models/filter_model.dart';
 import 'package:furniture_app_project/models/history_search_model.dart';
 import 'package:furniture_app_project/provider/category_provider.dart';
 import 'package:furniture_app_project/provider/filter_provider.dart';
 import 'package:furniture_app_project/screens/product_detail.dart';
+import 'package:provider/provider.dart';
+
+import '../models/cart_model.dart';
 import '../models/category_model.dart';
+import '../models/favorite_model.dart';
+import '../models/product_model.dart';
 import '../provider/product_provider.dart';
 import '../services/DatabaseHandler.dart';
 import '../widgets/bottom_navy_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../models/cart_model.dart';
-import '../models/favorite_model.dart';
-import '../models/product_model.dart';
 import 'cart.dart';
 import 'favorite.dart';
-import 'package:badges/badges.dart' as badges;
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -37,22 +37,20 @@ class _SearchState extends State<Search> {
   final FocusNode _focusNode = FocusNode();
   String searchString = "";
 
-  Map<String,String> listColor = {};
+  Map<String, String> listColor = {};
   List<String> listMaterial = [];
   List<String> listFeature = [];
   List<String> listSortBy = [];
   List<String> listPrice = [];
   List<String> listSeries = [];
 
-
   String priceSort = 'No selected';
   String categorySort = 'No selected';
   String categoryItemSort = 'No selected';
   String listCategory = "";
 
-  RangeValues _currentRangeValues = const RangeValues(0,1000);
+  RangeValues _currentRangeValues = const RangeValues(0, 1000);
   List<double> valuesPrice = [0, 1000];
-
 
   late DatabaseHandler handle;
   List<Product> searchedProducts = [];
@@ -75,7 +73,6 @@ class _SearchState extends State<Search> {
     handle = DatabaseHandler();
   }
 
-
   @override
   Widget build(BuildContext context) {
     productProvider = Provider.of<ProductProvider>(context);
@@ -83,7 +80,6 @@ class _SearchState extends State<Search> {
     filterProvider = Provider.of<FilterProvider>(context);
     filterProvider.getListFilter();
     filterList = filterProvider.getFilter;
-
 
     listCart = handle.getListCart;
     listFavorite = handle.getListFavorite;
@@ -283,12 +279,12 @@ class _SearchState extends State<Search> {
                     ),
                   ),
                   GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      page = 2;
-                      //print(2);
-                    });
-                  },
+                    onTap: () {
+                      setState(() {
+                        // page = 2;
+                        //print(2);
+                      });
+                    },
                     child: Container(
                       width: 50,
                       height: 50,
@@ -297,13 +293,13 @@ class _SearchState extends State<Search> {
                         borderRadius: BorderRadius.circular(15),
                         boxShadow: [
                           BoxShadow(
-                            //color: Color.fromRGBO(179, 213, 242, 0.2),
+                              //color: Color.fromRGBO(179, 213, 242, 0.2),
                               color: const Color(0xff81221e).withOpacity(0.3),
                               spreadRadius: 0.06,
                               blurRadius: 24,
                               offset: const Offset(12, 12)),
                           const BoxShadow(
-                            //color: Color.fromRGBO(179, 213, 242, 0.2),
+                              //color: Color.fromRGBO(179, 213, 242, 0.2),
                               color: Color(0xffffffff),
                               spreadRadius: 0.06,
                               blurRadius: 24,
@@ -404,7 +400,10 @@ class _SearchState extends State<Search> {
                                       searchString = e;
                                       page = 3;
                                       searchQuery.text = e;
-                                      searchedProducts = getProductByFilter(productProvider.getListProduct, setFilter(), searchString);
+                                      searchedProducts = getProductByFilter(
+                                          productProvider.getListProduct,
+                                          setFilter(),
+                                          searchString);
                                     });
                                   },
                                   style: ButtonStyle(
@@ -472,7 +471,10 @@ class _SearchState extends State<Search> {
                               setState(() {
                                 page = 3;
                                 listCategory = e.name;
-                                searchedProducts = getProductByFilter(productProvider.getListProduct, setFilter(), searchString);
+                                searchedProducts = getProductByFilter(
+                                    productProvider.getListProduct,
+                                    setFilter(),
+                                    searchString);
                               });
                             },
                             child: Container(
@@ -480,16 +482,16 @@ class _SearchState extends State<Search> {
                               decoration: const BoxDecoration(
                                 color: Colors.white,
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(10)),
+                                    BorderRadius.all(Radius.circular(10)),
                                 boxShadow: [
                                   BoxShadow(
-                                    //color: Color.fromRGBO(179, 213, 242, 0.2),
+                                      //color: Color.fromRGBO(179, 213, 242, 0.2),
                                       color: Color(0xffe3eaef),
                                       spreadRadius: 0.06,
                                       blurRadius: 12,
                                       offset: Offset(6, 6)),
                                   BoxShadow(
-                                    //color: Color.fromRGBO(179, 213, 242, 0.2),
+                                      //color: Color.fromRGBO(179, 213, 242, 0.2),
                                       color: Color(0xffffffff),
                                       spreadRadius: 0.06,
                                       blurRadius: 12,
@@ -506,7 +508,7 @@ class _SearchState extends State<Search> {
                                     height: 10,
                                   ),
                                   Image(
-                                    image: AssetImage(e.img),
+                                    image: NetworkImage(e.img),
                                     width: 70,
                                     height: 70,
                                   ),
@@ -552,8 +554,13 @@ class _SearchState extends State<Search> {
                     });
                     //searchedProducts = getProductByFilter(productProvider.getListProduct, setFilter(), searchString);
                   },
-                  icon: const Icon(Icons.close , color: Color(0xff81221e),)),
-              const SizedBox(height: 20,),
+                  icon: const Icon(
+                    Icons.close,
+                    color: Color(0xff81221e),
+                  )),
+              const SizedBox(
+                height: 20,
+              ),
 
               // Filter price
               const Text(
@@ -563,29 +570,34 @@ class _SearchState extends State<Search> {
                   fontSize: 22,
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               SliderTheme(
                 data: const SliderThemeData(
                   valueIndicatorColor: Color(0xff680108),
                   showValueIndicator: ShowValueIndicator.always,
                 ),
                 child: RangeSlider(
-                inactiveColor: const Color(0xff680108).withOpacity(0.5),
-                activeColor: const Color(0xff680108),
-                values: _currentRangeValues,
-                min: double.parse(filterList[0].priceRange.values.elementAt(1).toString()),
-                max: double.parse(filterList[0].priceRange.values.elementAt(0).toString()),
-                labels: RangeLabels(
-                  "\$ ${_currentRangeValues.start.round()}",
-                  "\$ ${_currentRangeValues.end.round()}",
+                  inactiveColor: const Color(0xff680108).withOpacity(0.5),
+                  activeColor: const Color(0xff680108),
+                  values: _currentRangeValues,
+                  min: double.parse(
+                      filterList[0].priceRange.values.elementAt(1).toString()),
+                  max: double.parse(
+                      filterList[0].priceRange.values.elementAt(0).toString()),
+                  labels: RangeLabels(
+                    "\$ ${_currentRangeValues.start.round()}",
+                    "\$ ${_currentRangeValues.end.round()}",
+                  ),
+                  onChanged: (RangeValues values) {
+                    setState(() {
+                      _currentRangeValues = values;
+                      valuesPrice = [values.start, values.end];
+                    });
+                  },
                 ),
-                onChanged: (RangeValues values) {
-                  setState(() {
-                    _currentRangeValues = values;
-                    valuesPrice = [values.start , values.end];
-                  });
-                },
-              ),),
+              ),
 
               // Filter material
               const Text(
@@ -595,7 +607,9 @@ class _SearchState extends State<Search> {
                   fontSize: 22,
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Wrap(
                 alignment: WrapAlignment.spaceBetween,
                 runAlignment: WrapAlignment.spaceBetween,
@@ -607,16 +621,19 @@ class _SearchState extends State<Search> {
                     selected: checkMaterialInList(listMaterial, e),
                     selectedColor: const Color(0xff680108),
                     showCheckmark: false,
-                    label: Text(e , style: TextStyle(
-                      color: checkMaterialInList(listMaterial, e) ? Colors.white :  const Color(0xff81221e),
-                      fontSize: 18
-                    ),),
+                    label: Text(
+                      e,
+                      style: TextStyle(
+                          color: checkMaterialInList(listMaterial, e)
+                              ? Colors.white
+                              : const Color(0xff81221e),
+                          fontSize: 18),
+                    ),
                     onSelected: (bool value) {
                       setState(() {
-                        if(checkMaterialInList(listMaterial, e)) {
+                        if (checkMaterialInList(listMaterial, e)) {
                           listMaterial.remove(e);
-                        }
-                        else {
+                        } else {
                           listMaterial.add(e);
                         }
                       });
@@ -624,7 +641,9 @@ class _SearchState extends State<Search> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
 
               // Filter Feature
               const Text(
@@ -634,7 +653,9 @@ class _SearchState extends State<Search> {
                   fontSize: 22,
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Wrap(
                 alignment: WrapAlignment.spaceBetween,
                 runAlignment: WrapAlignment.spaceBetween,
@@ -646,16 +667,19 @@ class _SearchState extends State<Search> {
                     selected: checkMaterialInList(listFeature, e),
                     selectedColor: const Color(0xff680108),
                     showCheckmark: false,
-                    label: Text(e , style: TextStyle(
-                        color: checkMaterialInList(listFeature, e) ? Colors.white :  const Color(0xff81221e),
-                        fontSize: 18
-                    ),),
+                    label: Text(
+                      e,
+                      style: TextStyle(
+                          color: checkMaterialInList(listFeature, e)
+                              ? Colors.white
+                              : const Color(0xff81221e),
+                          fontSize: 18),
+                    ),
                     onSelected: (bool value) {
                       setState(() {
-                        if(checkMaterialInList(listFeature, e)) {
+                        if (checkMaterialInList(listFeature, e)) {
                           listFeature.remove(e);
-                        }
-                        else {
+                        } else {
                           listFeature.add(e);
                         }
                       });
@@ -663,7 +687,9 @@ class _SearchState extends State<Search> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
 
               // Filter Color
               const Text(
@@ -673,7 +699,9 @@ class _SearchState extends State<Search> {
                   fontSize: 22,
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Wrap(
                 alignment: WrapAlignment.spaceBetween,
                 runAlignment: WrapAlignment.spaceBetween,
@@ -689,9 +717,10 @@ class _SearchState extends State<Search> {
                     ),
                     child: FilterChip(
                       elevation: 0,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
-                     backgroundColor: HexColor.fromHex(e.value),
-                      selected: listColor.containsKey(e.key) ,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25))),
+                      backgroundColor: HexColor.fromHex(e.value),
+                      selected: listColor.containsKey(e.key),
                       selectedColor: HexColor.fromHex(e.value),
                       checkmarkColor: Colors.white,
                       showCheckmark: true,
@@ -700,7 +729,8 @@ class _SearchState extends State<Search> {
                         width: 50,
                         height: 50,
                         decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(25)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(25)),
                           color: HexColor.fromHex(e.value),
                         ),
                         child: const Text(''),
@@ -708,10 +738,9 @@ class _SearchState extends State<Search> {
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       onSelected: (bool value) {
                         setState(() {
-                          if(listColor.containsKey(e.key)) {
+                          if (listColor.containsKey(e.key)) {
                             listColor.remove(e.key);
-                          }
-                          else {
+                          } else {
                             listColor[e.key] = e.value;
                           }
                         });
@@ -730,7 +759,9 @@ class _SearchState extends State<Search> {
                   fontSize: 22,
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Wrap(
                 alignment: WrapAlignment.spaceBetween,
                 runAlignment: WrapAlignment.spaceBetween,
@@ -742,16 +773,19 @@ class _SearchState extends State<Search> {
                     selected: checkMaterialInList(listSortBy, e),
                     selectedColor: const Color(0xff680108),
                     showCheckmark: false,
-                    label: Text(e , style: TextStyle(
-                        color: checkMaterialInList(listSortBy, e) ? Colors.white :  const Color(0xff81221e),
-                        fontSize: 18
-                    ),),
+                    label: Text(
+                      e,
+                      style: TextStyle(
+                          color: checkMaterialInList(listSortBy, e)
+                              ? Colors.white
+                              : const Color(0xff81221e),
+                          fontSize: 18),
+                    ),
                     onSelected: (bool value) {
                       setState(() {
-                        if(checkMaterialInList(listSortBy, e)) {
+                        if (checkMaterialInList(listSortBy, e)) {
                           listSortBy.remove(e);
-                        }
-                        else {
+                        } else {
                           listSortBy.clear();
                           listSortBy.add(e);
                         }
@@ -760,7 +794,9 @@ class _SearchState extends State<Search> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
 
               // Filter series by
               const Text(
@@ -770,7 +806,9 @@ class _SearchState extends State<Search> {
                   fontSize: 22,
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Wrap(
                 alignment: WrapAlignment.spaceBetween,
                 runAlignment: WrapAlignment.spaceBetween,
@@ -782,16 +820,19 @@ class _SearchState extends State<Search> {
                     selected: checkMaterialInList(listSeries, e),
                     selectedColor: const Color(0xff680108),
                     showCheckmark: false,
-                    label: Text(e , style: TextStyle(
-                        color: checkMaterialInList(listSeries, e) ? Colors.white :  const Color(0xff81221e),
-                        fontSize: 18
-                    ),),
+                    label: Text(
+                      e,
+                      style: TextStyle(
+                          color: checkMaterialInList(listSeries, e)
+                              ? Colors.white
+                              : const Color(0xff81221e),
+                          fontSize: 18),
+                    ),
                     onSelected: (bool value) {
                       setState(() {
-                        if(checkMaterialInList(listSeries, e)) {
+                        if (checkMaterialInList(listSeries, e)) {
                           listSeries.remove(e);
-                        }
-                        else {
+                        } else {
                           listSeries.clear();
                           listSeries.add(e);
                         }
@@ -800,7 +841,9 @@ class _SearchState extends State<Search> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
 
               // Filter Price Sort
               const Text(
@@ -810,7 +853,9 @@ class _SearchState extends State<Search> {
                   fontSize: 22,
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               getDropDownButton(),
 
               // Filter Category
@@ -821,9 +866,13 @@ class _SearchState extends State<Search> {
                   fontSize: 22,
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               getDropDownButtonCategory(),
-              const SizedBox(height: 100,),
+              const SizedBox(
+                height: 100,
+              ),
             ],
           ),
         ),
@@ -883,7 +932,10 @@ class _SearchState extends State<Search> {
           return const Iterable<String>.empty();
         }
         return autoCompleteText.where((String option) {
-          return option.trim().toLowerCase().contains(textEditingValue.text.trim().toLowerCase());
+          return option
+              .trim()
+              .toLowerCase()
+              .contains(textEditingValue.text.trim().toLowerCase());
         });
       },
       optionsViewBuilder: (BuildContext context,
@@ -911,7 +963,9 @@ class _SearchState extends State<Search> {
                         searchString = option;
                         page = 3;
                         searchedProducts = getProductByFilter(
-                            productProvider.getListProduct, setFilter(), searchString);
+                            productProvider.getListProduct,
+                            setFilter(),
+                            searchString);
                       });
                     },
                     child: ListTile(
@@ -930,7 +984,7 @@ class _SearchState extends State<Search> {
 
   Widget getFilterChipForResult() {
     return Container(
-        margin: const EdgeInsets.only(left: 0,right: 0 , top: 20),
+        margin: const EdgeInsets.only(left: 0, right: 0, top: 20),
         height: 120,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -943,21 +997,22 @@ class _SearchState extends State<Search> {
                 children: e.map((ele) {
                   return InputChip(
                     backgroundColor: const Color(0xff7eca8f),
-                    padding: const EdgeInsets.only(top: 10,bottom: 10),
-                    label: Text(ele , style: const TextStyle(
+                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                    label: Text(
+                      ele,
+                      style: const TextStyle(
                         fontSize: 18,
-                      color: Color(0xff10431c),
-                    ),),
+                        color: Color(0xff10431c),
+                      ),
+                    ),
                     deleteIcon: const Icon(Icons.delete),
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                   );
                 }).toList(),
               );
             }).toList(),
           ),
-        )
-    );
+        ));
   }
 
   Widget getProductPage() {
@@ -983,13 +1038,13 @@ class _SearchState extends State<Search> {
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: const [
                         BoxShadow(
-                          //color: Color.fromRGBO(179, 213, 242, 0.2),
+                            //color: Color.fromRGBO(179, 213, 242, 0.2),
                             color: Color(0xffe3eaef),
                             spreadRadius: 0.06,
                             blurRadius: 24,
                             offset: Offset(12, 12)),
                         BoxShadow(
-                          //color: Color.fromRGBO(179, 213, 242, 0.2),
+                            //color: Color.fromRGBO(179, 213, 242, 0.2),
                             color: Color(0xffffffff),
                             spreadRadius: 0.06,
                             blurRadius: 24,
@@ -1029,13 +1084,13 @@ class _SearchState extends State<Search> {
                         borderRadius: BorderRadius.circular(15),
                         boxShadow: [
                           BoxShadow(
-                            //color: Color.fromRGBO(179, 213, 242, 0.2),
+                              //color: Color.fromRGBO(179, 213, 242, 0.2),
                               color: const Color(0xff81221e).withOpacity(0.3),
                               spreadRadius: 0.06,
                               blurRadius: 24,
                               offset: const Offset(12, 12)),
                           const BoxShadow(
-                            //color: Color.fromRGBO(179, 213, 242, 0.2),
+                              //color: Color.fromRGBO(179, 213, 242, 0.2),
                               color: Color(0xffffffff),
                               spreadRadius: 0.06,
                               blurRadius: 24,
@@ -1056,9 +1111,9 @@ class _SearchState extends State<Search> {
       ),
     );
   }
-  
+
   Widget getProductList() {
-    if(searchedProducts.isNotEmpty) {
+    if (searchedProducts.isNotEmpty) {
       return GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
@@ -1069,17 +1124,20 @@ class _SearchState extends State<Search> {
           crossAxisSpacing: 20,
           childAspectRatio: 0.6,
         ),
-        itemBuilder: (BuildContext context, int index) => getProductCard(searchedProducts[index]),
+        itemBuilder: (BuildContext context, int index) =>
+            getProductCard(searchedProducts[index]),
       );
-    }
-    else {
+    } else {
       return Center(
         child: Column(
           children: [
             const Image(image: AssetImage("assets/icons/empty.png")),
-            Text('No search result for $searchString' , style: const TextStyle(
-              fontSize: 20,
-            ),),
+            Text(
+              'No search result for $searchString',
+              style: const TextStyle(
+                fontSize: 20,
+              ),
+            ),
           ],
         ),
       );
@@ -1095,92 +1153,96 @@ class _SearchState extends State<Search> {
           color: Colors.white,
           width: 4,
         ),
-        borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30), topRight: Radius.circular(30)),
         color: Colors.white.withOpacity(0.5),
       ),
       child: Row(
         children: [
           Expanded(
               child: Container(
-                margin: const EdgeInsets.only(bottom: 10, left: 30),
-                width: 200,
-                height: 50,
-                alignment: Alignment.center,
-                child: TextButton(
-                  onPressed: () {
-                    setState(() {
-                      listSeries = [];
-                      listCategory = "";
-                      listSortBy = [];
-                      listFeature = [];
-                      listColor = {};
-                      listPrice = [];
-                      listMaterial = [];
-                      priceSort = 'No selected';
-                      categorySort = "No selected";
-                      _currentRangeValues = const RangeValues(0,1000);
-                      valuesPrice = [0,1000];
-                    });
-                  },
-                  child: const Text(
-                    'Reset',
-                    style: TextStyle(
-                      color: Color(0xff81221e),
-                      fontSize: 22,
-                    ),
-                  ),
+            margin: const EdgeInsets.only(bottom: 10, left: 30),
+            width: 200,
+            height: 50,
+            alignment: Alignment.center,
+            child: TextButton(
+              onPressed: () {
+                setState(() {
+                  listSeries = [];
+                  listCategory = "";
+                  listSortBy = [];
+                  listFeature = [];
+                  listColor = {};
+                  listPrice = [];
+                  listMaterial = [];
+                  priceSort = 'No selected';
+                  categorySort = "No selected";
+                  _currentRangeValues = const RangeValues(0, 1000);
+                  valuesPrice = [0, 1000];
+                });
+              },
+              child: const Text(
+                'Reset',
+                style: TextStyle(
+                  color: Color(0xff81221e),
+                  fontSize: 22,
                 ),
-              )),
+              ),
+            ),
+          )),
           Expanded(
               child: Container(
-                width: 200,
-                height: 50,
-                margin: const EdgeInsets.only(bottom: 10, right: 30),
-                alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                  color: Color(0xffe5665a),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromRGBO(179, 213, 242, 1),
-                      spreadRadius: 0.3,
-                      offset: Offset(5, 5),
-                      blurRadius: 10,
+            width: 200,
+            height: 50,
+            margin: const EdgeInsets.only(bottom: 10, right: 30),
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+              color: Color(0xffe5665a),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromRGBO(179, 213, 242, 1),
+                  spreadRadius: 0.3,
+                  offset: Offset(5, 5),
+                  blurRadius: 10,
+                ),
+                BoxShadow(
+                  color: Color(0xffffffff),
+                  spreadRadius: 0.3,
+                  offset: Offset(-5, -5),
+                  blurRadius: 10,
+                ),
+              ],
+            ),
+            child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    page = 3;
+                    searchedProducts = getProductByFilter(
+                        productProvider.getListProduct,
+                        setFilter(),
+                        searchString);
+                  });
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    SizedBox(
+                      width: 0,
                     ),
-                    BoxShadow(
-                      color: Color(0xffffffff),
-                      spreadRadius: 0.3,
-                      offset: Offset(-5, -5),
-                      blurRadius: 10,
+                    Text(
+                      "Add Filter",
+                      style: TextStyle(
+                        color: Color(0xffffffff),
+                        fontSize: 22,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 0,
                     ),
                   ],
-                ),
-                child: TextButton(
-                    onPressed: () {
-                      setState(() {
-                        page = 3;
-                        searchedProducts = getProductByFilter(productProvider.getListProduct, setFilter(), searchString);
-                      });
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        SizedBox(
-                          width: 0,
-                        ),
-                        Text(
-                          "Add Filter",
-                          style: TextStyle(
-                            color: Color(0xffffffff),
-                            fontSize: 22,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 0,
-                        ),
-                      ],
-                    )),
-              )),
+                )),
+          )),
         ],
       ),
     );
@@ -1226,7 +1288,7 @@ class _SearchState extends State<Search> {
                       }).toList(),
                       onChanged: (value) {
                         setState(() {
-                          if(value != newLIst[0]) {
+                          if (value != newLIst[0]) {
                             listPrice.clear();
                             listPrice.add(value!);
                             priceSort = value;
@@ -1319,11 +1381,12 @@ class _SearchState extends State<Search> {
     }
   }
 
-  Widget getExpandItem(String text , List<String> newLIst) {
-    if(text != 'No selected') {
+  Widget getExpandItem(String text, List<String> newLIst) {
+    if (text != 'No selected') {
       int index = newLIst.indexOf(text);
       List<String> cateList = ['No selected'];
-      for (var element in categoryProvider.getListCategory[index-1].itemList) {
+      for (var element
+          in categoryProvider.getListCategory[index - 1].itemList) {
         cateList.add(element.name);
       }
       return Expanded(
@@ -1357,7 +1420,7 @@ class _SearchState extends State<Search> {
                   }).toList(),
                   onChanged: (value) {
                     setState(() {
-                      if(value!= cateList[0]) {
+                      if (value != cateList[0]) {
                         listCategory = value!;
                         categoryItemSort = value;
                       }
@@ -1381,8 +1444,9 @@ class _SearchState extends State<Search> {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                ProductDetailPage(productID: product,)));
+            builder: (context) => ProductDetailPage(
+                  productID: product,
+                )));
       },
       child: Stack(
         children: [
@@ -1394,7 +1458,7 @@ class _SearchState extends State<Search> {
             child: Hero(
               tag: product.id,
               child: FadeInImage(
-                image: AssetImage(product.img),
+                image: NetworkImage(product.img),
                 fadeInDuration: const Duration(milliseconds: 2000),
                 fit: BoxFit.contain,
                 placeholder: const AssetImage("assets/icons/spinner170.gif"),
@@ -1402,7 +1466,7 @@ class _SearchState extends State<Search> {
             ),
           ),
           Container(
-            decoration: const BoxDecoration (
+            decoration: const BoxDecoration(
               color: Colors.white,
             ),
             margin: const EdgeInsets.only(top: 170),
@@ -1414,95 +1478,91 @@ class _SearchState extends State<Search> {
               children: [
                 Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // name product
+                    AutoSizeText(
+                      product.name,
+                      maxFontSize: 18,
+                      minFontSize: 12,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Roboto",
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.ellipsis),
+                    ),
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    // title product
+                    Text(
+                      product.title,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Roboto",
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                          overflow: TextOverflow.ellipsis),
+                    ),
+                    const SizedBox(
+                      height: 2,
+                    ),
+
+                    // Rate
+                    RatingBar.builder(
+                      ignoreGestures: true,
+                      initialRating: product.review,
+                      itemSize: 15,
+                      minRating: 0,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      unratedColor: Colors.grey,
+                      itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
+                      itemBuilder: (context, _) => const Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      onRatingUpdate: (rating) {
+                        //print(rating);
+                      },
+                    ),
+
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
                       children: [
-                        // name product
                         AutoSizeText(
-                          product.name,
-                          maxFontSize: 18,
+                          "(Sold ${product.sellest.toStringAsFixed(0)})",
+                          maxFontSize: 12,
                           minFontSize: 12,
                           textAlign: TextAlign.start,
                           style: const TextStyle(
                             color: Colors.black,
                             fontFamily: "Roboto",
-                            fontWeight: FontWeight.bold,
-                            overflow: TextOverflow.ellipsis
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 2,
-                        ),
-                        // title product
-                        Text(
-                          product.title,
-                          textAlign: TextAlign.start,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Roboto",
-                            fontSize: 12,
                             fontWeight: FontWeight.normal,
-                              overflow: TextOverflow.ellipsis
                           ),
-                        ),
-                        const SizedBox(
-                          height: 2,
-                        ),
-
-                        // Rate
-                        RatingBar.builder(
-                          ignoreGestures: true,
-                          initialRating: product.review,
-                          itemSize: 15,
-                          minRating: 0,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          unratedColor: Colors.grey,
-                          itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
-                          itemBuilder: (context, _) => const Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                          onRatingUpdate: (rating) {
-                            //print(rating);
-                          },
-                        ),
-
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            AutoSizeText(
-                              "(Sold ${product.sellest.toStringAsFixed(0)})",
-                              maxFontSize: 12,
-                              minFontSize: 12,
-                              textAlign: TextAlign.start,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Roboto",
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ],
                         ),
                       ],
-                    )
-                ),
+                    ),
+                  ],
+                )),
                 Column(
                   children: [
                     GestureDetector(
                       onTap: () {
                         setState(() {
-
                           Cart cart = Cart(
                               imgProduct: product.img,
                               nameProduct: product.name,
-                              color: product.productItemList[0].color.keys.elementAt(0),
+                              color: product.productItemList[0].color.keys
+                                  .elementAt(0),
                               quantity: 1,
                               idProduct: product.productItemList[0].id,
-                              price: product.currentPrice
-                          );
+                              price: product.currentPrice);
 
                           handle.insertCart(cart);
                         });
@@ -1512,14 +1572,21 @@ class _SearchState extends State<Search> {
                         height: 30,
                         width: 30,
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1,color: const Color(0xff81220e)),
-                          borderRadius: const BorderRadius.all(Radius.circular(15)),
+                          border: Border.all(
+                              width: 1, color: const Color(0xff81220e)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15)),
                         ),
-
-                        child: const Icon(Icons.shopping_cart , color: Color(0xff81220e),size: 25,),
+                        child: const Icon(
+                          Icons.shopping_cart,
+                          color: Color(0xff81220e),
+                          size: 25,
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     getPriceDecor(product),
                   ],
                 ),
@@ -1541,11 +1608,14 @@ class _SearchState extends State<Search> {
                         width: 15,
                         height: 15,
                         decoration: BoxDecoration(
-                          color: HexColor.fromHex(product.productItemList[index].color.values.elementAt(0)),
-                          borderRadius: const BorderRadius.all(Radius.circular(15)),
+                          color: HexColor.fromHex('#FFFFFF'),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15)),
                         ),
                       ),
-                      const SizedBox(width: 5,)
+                      const SizedBox(
+                        width: 5,
+                      )
                     ],
                   );
                 }),
@@ -1564,8 +1634,7 @@ class _SearchState extends State<Search> {
               Column(
                 children: [
                   IconButton(
-                    icon: getIconFavorite(
-                        product.id, listFavorite, product),
+                    icon: getIconFavorite(product.id, listFavorite, product),
                     onPressed: () {
                       setState(() {
                         var favorite = Favorite(
@@ -1589,7 +1658,7 @@ class _SearchState extends State<Search> {
   }
 
   Widget getPriceDecor(Product product) {
-    if(product.currentPrice != product.rootPrice) {
+    if (product.currentPrice != product.rootPrice) {
       return Column(
         children: [
           AutoSizeText(
@@ -1604,7 +1673,9 @@ class _SearchState extends State<Search> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 5,),
+          const SizedBox(
+            height: 5,
+          ),
           AutoSizeText(
             getDecorPrice(product.currentPrice),
             maxFontSize: 15,
@@ -1618,8 +1689,7 @@ class _SearchState extends State<Search> {
           ),
         ],
       );
-    }
-    else {
+    } else {
       return AutoSizeText(
         getDecorPrice(product.currentPrice),
         maxFontSize: 15,
@@ -1635,26 +1705,28 @@ class _SearchState extends State<Search> {
   }
 
   Widget getProductTagNew(Product product) {
-    if(checkProductNew(product.timestamp) <= 90) {
+    if (checkProductNew(product.timestamp) <= 90) {
       return Container(
         margin: const EdgeInsets.only(left: 5),
         width: 40,
         height: 40,
         alignment: Alignment.center,
-        child: const Image(image: AssetImage("assets/icons/new.png"),fit: BoxFit.fill,),
+        child: const Image(
+          image: AssetImage("assets/icons/new.png"),
+          fit: BoxFit.fill,
+        ),
       );
-    }
-    else {
+    } else {
       return Container();
     }
   }
 
-
   Widget getProductTagDiscount(Product product) {
-    if(product.currentPrice != product.rootPrice) {
+    if (product.currentPrice != product.rootPrice) {
       return Container(
         padding: const EdgeInsets.all(10),
-        child: Transform.rotate(angle: 380,
+        child: Transform.rotate(
+          angle: 380,
           child: SizedBox(
             height: 30,
             width: 60,
@@ -1662,21 +1734,22 @@ class _SearchState extends State<Search> {
               painter: PriceTagPaint(),
               child: Center(
                 child: Transform.rotate(
-                  angle: 380, child: Text(
-                  returnDiscountPrice(product.rootPrice,
-                      product.currentPrice),
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
+                  angle: 380,
+                  child: Text(
+                    returnDiscountPrice(
+                        product.rootPrice, product.currentPrice),
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),),
+                ),
               ),
             ),
           ),
         ),
       );
-    }
-    else {
+    } else {
       return Container();
     }
   }
@@ -1704,7 +1777,6 @@ class _SearchState extends State<Search> {
   }
 
   FilterModel setFilter() {
-
     FilterModel filter = FilterModel(
         price: listPrice,
         color: listColor,
@@ -1712,11 +1784,10 @@ class _SearchState extends State<Search> {
         feature: listFeature,
         idFilter: 'F',
         popularSearch: const [],
-        priceRange: {'0' : valuesPrice[0] , '1': valuesPrice[1]},
+        priceRange: {'0': valuesPrice[0], '1': valuesPrice[1]},
         series: listSeries,
         sortBy: listSortBy,
-        category: listCategory
-    );
+        category: listCategory);
 
     return filter;
   }
@@ -1883,18 +1954,18 @@ bool checkMaterialInList(List<String> materialList, String text) {
   return check;
 }
 
-List<Product> getProductBySearch(List<Product> listProduct , String query) {
+List<Product> getProductBySearch(List<Product> listProduct, String query) {
   List<Product> finalList = [];
 
-  if(listProduct.isNotEmpty) {
+  if (listProduct.isNotEmpty) {
     for (var product in listProduct) {
-      if(product.name.toLowerCase().contains(query.toLowerCase().trim())) {
+      if (product.name.toLowerCase().contains(query.toLowerCase().trim())) {
         finalList.add(product);
-      }
-      else if(product.title.toLowerCase().contains(query.toLowerCase().trim())) {
+      } else if (product.title
+          .toLowerCase()
+          .contains(query.toLowerCase().trim())) {
         finalList.add(product);
-      }
-      else if(checkMaterial(product.material, query)) {
+      } else if (checkMaterial(product.material, query)) {
         finalList.add(product);
       }
     }
@@ -1902,20 +1973,24 @@ List<Product> getProductBySearch(List<Product> listProduct , String query) {
   return finalList;
 }
 
-bool checkMaterial(Map<String, String> material , String query ) {
+bool checkMaterial(Map<String, String> material, String query) {
   bool check = false;
   material.forEach((key, value) {
-    if(value.toLowerCase().contains(query.toLowerCase().trim())) {
+    if (value.toLowerCase().contains(query.toLowerCase().trim())) {
       check = true;
     }
   });
   return check;
 }
-bool checkColor(Map<String, String> color ,  List<ProductItem> productItemList ) {
+
+bool checkColor(Map<String, String> color, List<ProductItem> productItemList) {
   bool check = false;
   color.forEach((key, value) {
     for (var element in productItemList) {
-      if(element.color.keys.elementAt(0).toLowerCase().contains(key.toLowerCase())) {
+      if (element.color.keys
+          .elementAt(0)
+          .toLowerCase()
+          .contains(key.toLowerCase())) {
         check = true;
       }
     }
@@ -1923,80 +1998,95 @@ bool checkColor(Map<String, String> color ,  List<ProductItem> productItemList )
   return check;
 }
 
-List<Product> getProductByFilter(List<Product> productList, FilterModel filter, String query) {
+List<Product> getProductByFilter(
+    List<Product> productList, FilterModel filter, String query) {
   List<Product> finalList = [];
   List<Product> newList = [];
 
   //print(productList.length);
 
-  if(query.isNotEmpty) {
+  if (query.isNotEmpty) {
     newList = getProductBySearch(productList, query);
-  }
-  else {
+  } else {
     newList = productList;
   }
 
   // Follow price - Low to high - High to Low
-  if(filter.price.isNotEmpty) {
-    if(filter.price[0].toLowerCase() == 'Low to high'.toLowerCase()) {
-      newList.sort((a,b) => a.currentPrice.compareTo(b.currentPrice));
-    }
-    else {
-      newList.sort((b,a) => a.currentPrice.compareTo(b.currentPrice));
+  if (filter.price.isNotEmpty) {
+    if (filter.price[0].toLowerCase() == 'Low to high'.toLowerCase()) {
+      newList.sort((a, b) => a.currentPrice.compareTo(b.currentPrice));
+    } else {
+      newList.sort((b, a) => a.currentPrice.compareTo(b.currentPrice));
     }
   }
 
   // Follow color
-  if(filter.color.isNotEmpty) {
-    newList = newList.where((element) => checkColor(filter.color, element.productItemList)).toList();
+  if (filter.color.isNotEmpty) {
+    newList = newList
+        .where((element) => checkColor(filter.color, element.productItemList))
+        .toList();
   }
 
   // Follow filter
-  if(filter.feature.isNotEmpty) {
+  if (filter.feature.isNotEmpty) {
     for (var fe in filter.feature) {
-      newList = newList.where((element) => element.title.toLowerCase().contains(fe.toLowerCase())).toList();
+      newList = newList
+          .where((element) =>
+              element.title.toLowerCase().contains(fe.toLowerCase()))
+          .toList();
     }
   }
 
   // Follwow material
-  if(filter.material.isNotEmpty) {
+  if (filter.material.isNotEmpty) {
     for (var mat in filter.material) {
-      newList = newList.where((element) => checkMaterial(element.material, mat)).toList();
+      newList = newList
+          .where((element) => checkMaterial(element.material, mat))
+          .toList();
     }
   }
 
   // Follow price range
-  if(filter.priceRange.isNotEmpty) {
-    newList = newList.where((element) => element.currentPrice >= filter.priceRange.values.elementAt(0) && element.currentPrice <= filter.priceRange.values.elementAt(1)).toList();
+  if (filter.priceRange.isNotEmpty) {
+    newList = newList
+        .where((element) =>
+            element.currentPrice >= filter.priceRange.values.elementAt(0) &&
+            element.currentPrice <= filter.priceRange.values.elementAt(1))
+        .toList();
   }
 
   // Follow series
-  if(filter.series.isNotEmpty) {
-    newList = newList.where((element) => element.name.toLowerCase().contains(filter.series[0].toLowerCase())).toList();
+  if (filter.series.isNotEmpty) {
+    newList = newList
+        .where((element) =>
+            element.name.toLowerCase().contains(filter.series[0].toLowerCase()))
+        .toList();
   }
 
   // Follow sort by
-  if(filter.sortBy.isNotEmpty) {
-    if(filter.sortBy[0].toLowerCase() == "New Product".toLowerCase()) {
-      newList.sort((b,a) => a.timestamp.compareTo(b.timestamp));
-      newList = newList.where((element) => checkProductNew(element.timestamp) <= 90).toList();
-    }
-    else if(filter.sortBy[0].toLowerCase() == "Top Sellest".toLowerCase()) {
-      newList.sort((b,a) => a.sellest.compareTo(b.sellest));
-    }
-    else if(filter.sortBy[0].toLowerCase() == "Best Review".toLowerCase()) {
-      newList.sort((b,a) => a.review.compareTo(b.review));
-    }
-    else{
-      newList = newList.where((element) => element.currentPrice != element.rootPrice).toList();
+  if (filter.sortBy.isNotEmpty) {
+    if (filter.sortBy[0].toLowerCase() == "New Product".toLowerCase()) {
+      newList.sort((b, a) => a.timestamp.compareTo(b.timestamp));
+      newList = newList
+          .where((element) => checkProductNew(element.timestamp) <= 90)
+          .toList();
+    } else if (filter.sortBy[0].toLowerCase() == "Top Sellest".toLowerCase()) {
+      newList.sort((b, a) => a.sellest.compareTo(b.sellest));
+    } else if (filter.sortBy[0].toLowerCase() == "Best Review".toLowerCase()) {
+      newList.sort((b, a) => a.review.compareTo(b.review));
+    } else {
+      newList = newList
+          .where((element) => element.currentPrice != element.rootPrice)
+          .toList();
     }
   }
 
-  if(filter.category.isNotEmpty) {
+  if (filter.category.isNotEmpty) {
     String id = "";
-    for(var data in categoryProvider.getListCategory) {
-      for(var item in data.itemList) {
-        if(item.name.toLowerCase().trim() == filter.category.toLowerCase().trim()) {
+    for (var data in categoryProvider.getListCategory) {
+      for (var item in data.itemList) {
+        if (item.name.toLowerCase().trim() ==
+            filter.category.toLowerCase().trim()) {
           id = item.id;
           //print(id);
         }
@@ -2010,19 +2100,19 @@ List<Product> getProductByFilter(List<Product> productList, FilterModel filter, 
 }
 
 String returnDiscountPrice(double priceRoot, double priceCurrent) {
-
   double discount = ((priceRoot - priceCurrent) / priceRoot) * 100;
   return "${discount.toStringAsFixed(0)} % ";
 }
 
-List<String> getAutoCompleteInput(List<Product> listProduct , List<Category> listCategory) {
+List<String> getAutoCompleteInput(
+    List<Product> listProduct, List<Category> listCategory) {
   List<String> finalList = [];
-  for(var pro in listProduct) {
+  for (var pro in listProduct) {
     finalList.add(pro.name.toLowerCase());
     finalList.add(pro.title.toLowerCase());
   }
 
-  for(var cat in listCategory) {
+  for (var cat in listCategory) {
     for (var element in cat.itemList) {
       finalList.add(element.name.toLowerCase());
     }

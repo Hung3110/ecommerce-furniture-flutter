@@ -5,6 +5,7 @@ import 'package:furniture_app_project/provider/product_provider.dart';
 import 'package:furniture_app_project/screens/product_detail.dart';
 import 'package:furniture_app_project/widgets/bottom_navy_bar.dart';
 import 'package:provider/provider.dart';
+
 import '../models/cart_model.dart';
 import '../models/favorite_model.dart';
 import '../services/DatabaseHandler.dart';
@@ -68,7 +69,6 @@ class _FavoritePageState extends State<FavoritePage> {
           ? ListView.builder(
               itemCount: listFavorite.length,
               itemBuilder: (BuildContext context, int index) {
-
                 var pro = getProduct(listFavorite[index].idProduct);
 
                 return Container(
@@ -80,8 +80,8 @@ class _FavoritePageState extends State<FavoritePage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProductDetailPage(
-                                  productID: pro)));
+                              builder: (context) =>
+                                  ProductDetailPage(productID: pro)));
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
@@ -93,13 +93,13 @@ class _FavoritePageState extends State<FavoritePage> {
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
-                            //color: Color.fromRGBO(179, 213, 242, 0.2),
+                              //color: Color.fromRGBO(179, 213, 242, 0.2),
                               color: Color(0xffe3eaef),
                               spreadRadius: 0.06,
                               blurRadius: 12,
                               offset: Offset(6, 6)),
                           BoxShadow(
-                            //color: Color.fromRGBO(179, 213, 242, 0.2),
+                              //color: Color.fromRGBO(179, 213, 242, 0.2),
                               color: Color(0xffffffff),
                               spreadRadius: 0.06,
                               blurRadius: 12,
@@ -119,7 +119,7 @@ class _FavoritePageState extends State<FavoritePage> {
                                 width: 70,
                                 height: 70,
                                 child: Image(
-                                  image: AssetImage(pro.img),
+                                  image: NetworkImage(pro.img),
                                   width: 70,
                                   height: 70,
                                   fit: BoxFit.fill,
@@ -185,11 +185,13 @@ class _FavoritePageState extends State<FavoritePage> {
                                     alignment: Alignment.center,
                                     padding: const EdgeInsets.all(5),
                                     decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(25)),
                                       color: Colors.white,
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Color.fromRGBO(179, 213, 242, 1),
+                                          color:
+                                              Color.fromRGBO(179, 213, 242, 1),
                                           spreadRadius: 4,
                                           offset: Offset(4, 4),
                                           blurRadius: 8,
@@ -202,9 +204,11 @@ class _FavoritePageState extends State<FavoritePage> {
                                         ),
                                       ],
                                     ),
-                                    child: const Icon(Icons.delete_forever , color: Colors.grey,),
-                                  )
-                              ),
+                                    child: const Icon(
+                                      Icons.delete_forever,
+                                      color: Colors.grey,
+                                    ),
+                                  )),
                             ],
                           ),
                         ],
@@ -216,7 +220,9 @@ class _FavoritePageState extends State<FavoritePage> {
           : Center(
               child: Column(
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height / 2 - 200,),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 2 - 200,
+                  ),
                   const Image(image: AssetImage("assets/icons/empty.png")),
                   const Text(
                     'Not Favorite',
@@ -248,19 +254,24 @@ class _FavoritePageState extends State<FavoritePage> {
             // The background color
             backgroundColor: const Color(0xff560f20),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: const [
-                  SizedBox(height: 20,),
-                  CircularProgressIndicator(color: Color(0xffecd8e0),),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  CircularProgressIndicator(
+                    color: Color(0xffecd8e0),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
             ),
           );
-        }
-    );
+        });
 
     listFavorite = handler.getListFavorite;
 

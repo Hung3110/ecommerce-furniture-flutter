@@ -1,12 +1,12 @@
 import 'dart:async';
+import 'dart:io';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:furniture_app_project/models/user_model.dart';
 import 'package:furniture_app_project/provider/user_provider.dart';
 import 'package:furniture_app_project/widgets/bottom_navy_bar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'dart:io';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -44,7 +44,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<String> _uploadImage({required File image}) async {
-
     String urlImage;
 
     String idUser = userProvider.currentUser.idUser;
@@ -140,11 +139,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.pop(context);
                     },
                     icon: const Icon(Icons.arrow_back)),
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.settings)),
               ],
             )),
             Positioned(
@@ -221,183 +215,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   )
                 : Container(),
-            Positioned(
-              top: 200,
-              right: MediaQuery.of(context).size.width / 4.5 - 50,
-              child: GestureDetector(
-                onTap: () {
-                  if (!isEdit) {
-                    setState(() {
-                      isEdit = true;
-                    });
-                  } else {
-                    showDialog(
-                        context: context,
-                        builder: (_) {
-                          return Dialog(
-                            // The background color
-                            backgroundColor: const Color(0xff560f20),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 20, horizontal: 20),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: const [
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  CircularProgressIndicator(
-                                    color: Color(0xffecd8e0),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        });
-
-                    if(_pickedImage != null) {
-                      _uploadImage(image: _pickedImage!).then((value) {
-
-                        UserSQ user = UserSQ(
-                            status: userProvider.currentUser.status,
-                            email: emailController.text,
-                            phone: userProvider.currentUser.phone,
-                            fullName: fullNameController.text,
-                            address: addressController.text,
-                            img: value,
-                            birthDate: birthDateController.text,
-                            idUser: userProvider.currentUser.idUser,
-                            dateEnter: userProvider.currentUser.dateEnter,
-                            gender: gender);
-
-                        userProvider.updateUser(user).then((value) {
-
-                          showDialog(
-                              barrierDismissible: false,
-                              context: context,
-                              builder: (_) {
-                                return Dialog(
-                                  // The background color
-                                  backgroundColor: const Color(0xff560f20),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 20),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: const [
-                                        Image(image: AssetImage("assets/icons/success.png"),width: 60,),
-                                        // Some text
-                                        SizedBox(height: 20,),
-                                        Text("Update successfully",style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                        ),),
-                                        SizedBox(height: 20,),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }
-                          );
-
-                          Timer(const Duration(milliseconds: 500), () {
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                          });
-
-                          setState(() {
-                            isEdit = false;
-                            num = 1;
-                          });
-                        });
-                      });
-                    }
-                    else {
-                      UserSQ user = UserSQ(
-                          status: userProvider.currentUser.status,
-                          email: emailController.text,
-                          phone: userProvider.currentUser.phone,
-                          fullName: fullNameController.text,
-                          address: addressController.text,
-                          img: userProvider.currentUser.img,
-                          birthDate: birthDateController.text,
-                          idUser: userProvider.currentUser.idUser,
-                          dateEnter: userProvider.currentUser.dateEnter,
-                          gender: gender);
-
-                      userProvider.updateUser(user).then((value) {
-
-                        showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (_) {
-                              return Dialog(
-                                // The background color
-                                backgroundColor: const Color(0xff560f20),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 20),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: const [
-                                      Image(image: AssetImage("assets/icons/success.png"),width: 60,),
-                                      // Some text
-                                      SizedBox(height: 20,),
-                                      Text("Update successfully",style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                      ),),
-                                      SizedBox(height: 20,),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }
-                        );
-
-                        Timer(const Duration(milliseconds: 500), () {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        });
-
-                        setState(() {
-                          isEdit = false;
-                          num = 1;
-                        });
-                      });
-                    }
-                  }
-                },
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: !isEdit ? const Color(0xff81221e) : Colors.green,
-                    borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                          //color: Color.fromRGBO(179, 213, 242, 0.2),
-                          color: !isEdit
-                              ? const Color(0xff81221e).withOpacity(0.3)
-                              : Colors.green.withOpacity(0.3),
-                          spreadRadius: 0.06,
-                          blurRadius: 24,
-                          offset: const Offset(12, 12)),
-                      const BoxShadow(
-                          //color: Color.fromRGBO(179, 213, 242, 0.2),
-                          color: Color(0xffffffff),
-                          spreadRadius: 0.06,
-                          blurRadius: 24,
-                          offset: Offset(-12, -12)),
-                    ],
-                  ),
-                  child: !isEdit
-                      ? const Icon(Icons.edit)
-                      : const Icon(Icons.check),
-                ),
-              ),
-            ),
             Container(
               margin: const EdgeInsets.only(top: 300),
               width: MediaQuery.of(context).size.width,

@@ -1,13 +1,14 @@
 import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../screens/login.dart';
-import '../screens/verify.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/phone_model.dart';
 import '../models/user_model.dart';
-import 'package:glassmorphism/glassmorphism.dart';
+import '../screens/login.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -40,12 +41,10 @@ String messageError = "";
 String messageWarning = "";
 
 class _RegisterState extends State<Register> {
-
   bool validateFullName = true;
   bool validatePhone = true;
   bool validatePassword = true;
   bool validateConfirmPass = true;
-
 
   void submit(context) async {
     UserCredential result;
@@ -57,19 +56,25 @@ class _RegisterState extends State<Register> {
               // The background color
               backgroundColor: const Color(0xff560f20),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: const [
-                    SizedBox(height: 20,),
-                    CircularProgressIndicator(color: Color(0xffecd8e0),),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    CircularProgressIndicator(
+                      color: Color(0xffecd8e0),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                   ],
                 ),
               ),
             );
-          }
-      );
+          });
 
       result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: "${phoneNumber.text}@gmail.com", password: password.text);
@@ -86,7 +91,8 @@ class _RegisterState extends State<Register> {
           idUser: result.user!.uid,
           dateEnter: DateTime.now().toString());
 
-      await FirebaseFirestore.instance.collection("user")
+      await FirebaseFirestore.instance
+          .collection("user")
           .doc(result.user!.uid)
           .set(newUser.toMap());
 
@@ -107,35 +113,42 @@ class _RegisterState extends State<Register> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: const [
-                    Image(image: AssetImage("assets/icons/success.png"),width: 60,),
+                    Image(
+                      image: AssetImage("assets/icons/success.png"),
+                      width: 60,
+                    ),
                     // Some text
-                    SizedBox(height: 20,),
-                    Text("Register successfully",style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Register successfully",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                   ],
                 ),
               ),
             );
-          }
-      );
+          });
 
       Timer(const Duration(milliseconds: 1500), () {
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (ctx) => Verify(phoneUser: currentPhoneNumber.value + phoneNumber.text , idUser: result.user!.uid,)));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (ctx) => const Login()));
       });
-
     } on FirebaseAuthException catch (error) {
       Navigator.of(context).pop();
 
       var message = "Please Check Your Internet Connection ";
 
-      if(error.code == "email-already-in-use") {
+      if (error.code == "email-already-in-use") {
         message = "Phone is registered for another account";
-      }
-      else if(error.code == "network-request-failed") {
+      } else if (error.code == "network-request-failed") {
         message = "Please Check Your Internet Connection";
       }
 
@@ -150,22 +163,32 @@ class _RegisterState extends State<Register> {
               // The background color
               backgroundColor: const Color(0xff560f20),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Image(image: AssetImage("assets/icons/cancel.png"),width: 60,),
+                    const Image(
+                      image: AssetImage("assets/icons/cancel.png"),
+                      width: 60,
+                    ),
                     // Some text
                     const SizedBox(height: 20),
-                    Text(message,style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),),
-                    const SizedBox(height: 20,),
+                    Text(
+                      message,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color> (const Color(0xffecd8e0)),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              const Color(0xffecd8e0)),
                         ),
                         onPressed: () {
                           setState(() {
@@ -173,18 +196,20 @@ class _RegisterState extends State<Register> {
                             isLoading = false;
                           });
                           Navigator.pop(context);
-                        }, child: const Text('OK' , style: TextStyle(
-                      color: Color(0xff560f20),
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),)),
+                        },
+                        child: const Text(
+                          'OK',
+                          style: TextStyle(
+                            color: Color(0xff560f20),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )),
                   ],
                 ),
               ),
             );
-          }
-      );
-
+          });
     } catch (error) {
       Navigator.of(context).pop();
 
@@ -194,13 +219,11 @@ class _RegisterState extends State<Register> {
     }
   }
 
-
   void validation(BuildContext context) async {
     if (userName.text.isEmpty &&
         phoneNumber.text.isEmpty &&
         password.text.isEmpty &&
         phoneNumber.text.isEmpty) {
-
       setState(() {
         validatePhone = false;
         validateFullName = false;
@@ -209,11 +232,10 @@ class _RegisterState extends State<Register> {
       });
     }
 
-    if(validateConfirmPass) {
+    if (validateConfirmPass) {
       if (validatePassword) {
         if (validateFullName) {
-          if(validatePhone) {
-
+          if (validatePhone) {
             submit(context);
           }
         }
@@ -251,7 +273,7 @@ class _RegisterState extends State<Register> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      key: _scaffoldKey,
+      // key: _scaffoldKey,
       body: Container(
         padding: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom / 2,
@@ -304,11 +326,12 @@ class _RegisterState extends State<Register> {
                               alignment: Alignment.topLeft,
                               decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage(
-                                        "assets/images/background_register.jpg"),
-                                    fit: BoxFit.cover,
-                                  )),
-                              padding: const EdgeInsets.only(left: 70, right: 70),
+                                image: AssetImage(
+                                    "assets/images/background_register.jpg"),
+                                fit: BoxFit.cover,
+                              )),
+                              padding:
+                                  const EdgeInsets.only(left: 70, right: 70),
                               height: 200,
                             ),
                           ),
@@ -372,12 +395,11 @@ class _RegisterState extends State<Register> {
                           ]),
                       child: TextField(
                         onChanged: (text) {
-                          if(text.isEmpty || textExp.hasMatch(text)) {
+                          if (text.isEmpty || textExp.hasMatch(text)) {
                             setState(() {
                               validateFullName = true;
                             });
-                          }
-                          else {
+                          } else {
                             setState(() {
                               validateFullName = false;
                             });
@@ -413,7 +435,9 @@ class _RegisterState extends State<Register> {
                               color: Colors.redAccent,
                             ),
                           ),
-                          const SizedBox(height: 5,),
+                          const SizedBox(
+                            height: 5,
+                          ),
                         ],
                       ),
                     ),
@@ -456,24 +480,27 @@ class _RegisterState extends State<Register> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width/6,
+                            width: MediaQuery.of(context).size.width / 6,
                             margin: const EdgeInsets.only(left: 20),
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton<PhoneNumber>(
                                 menuMaxHeight:
-                                MediaQuery.of(context).size.height / 2,
+                                    MediaQuery.of(context).size.height / 2,
                                 isExpanded: true,
                                 borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
+                                    const BorderRadius.all(Radius.circular(10)),
                                 dropdownColor: const Color(0xfff2f9fe),
                                 value: currentPhoneNumber,
                                 items: listPhoneNumber.map((e) {
                                   return DropdownMenuItem<PhoneNumber>(
                                     value: e,
-                                    child: Text(e.value , style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Color(0xff410000),
-                                    ),),
+                                    child: Text(
+                                      e.value,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        color: Color(0xff410000),
+                                      ),
+                                    ),
                                   );
                                 }).toList(),
                                 onChanged: (value) {
@@ -487,12 +514,12 @@ class _RegisterState extends State<Register> {
                           Expanded(
                             child: TextField(
                               onChanged: (text) {
-                                if((text.isEmpty || digitExp.hasMatch(text)) && text.length == currentPhoneNumber.digit) {
+                                if ((text.isEmpty || digitExp.hasMatch(text)) &&
+                                    text.length == currentPhoneNumber.digit) {
                                   setState(() {
                                     validatePhone = true;
                                   });
-                                }
-                                else {
+                                } else {
                                   setState(() {
                                     validatePhone = false;
                                   });
@@ -531,7 +558,9 @@ class _RegisterState extends State<Register> {
                               color: Colors.redAccent,
                             ),
                           ),
-                          const SizedBox(height: 5,),
+                          const SizedBox(
+                            height: 5,
+                          ),
                         ],
                       ),
                     ),
@@ -546,7 +575,9 @@ class _RegisterState extends State<Register> {
                               color: Colors.redAccent,
                             ),
                           ),
-                          const SizedBox(height: 5,),
+                          const SizedBox(
+                            height: 5,
+                          ),
                         ],
                       ),
                     ),
@@ -587,12 +618,11 @@ class _RegisterState extends State<Register> {
                           ]),
                       child: TextField(
                         onChanged: (text) {
-                          if(text.isEmpty || text.length >= 8) {
+                          if (text.isEmpty || text.length >= 8) {
                             setState(() {
                               validatePassword = true;
                             });
-                          }
-                          else {
+                          } else {
                             setState(() {
                               validatePassword = false;
                             });
@@ -628,7 +658,9 @@ class _RegisterState extends State<Register> {
                               color: Colors.redAccent,
                             ),
                           ),
-                          const SizedBox(height: 5,),
+                          const SizedBox(
+                            height: 5,
+                          ),
                         ],
                       ),
                     ),
@@ -669,12 +701,11 @@ class _RegisterState extends State<Register> {
                           ]),
                       child: TextField(
                         onChanged: (text) {
-                          if(text.isEmpty || text == password.text) {
+                          if (text.isEmpty || text == password.text) {
                             setState(() {
                               validateConfirmPass = true;
                             });
-                          }
-                          else {
+                          } else {
                             setState(() {
                               validateConfirmPass = false;
                             });
@@ -704,14 +735,21 @@ class _RegisterState extends State<Register> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const SizedBox(width: 10,),
-                          Expanded(child: Text(
-                            errorMessage[3],
-                            style: const TextStyle(
-                              fontStyle: FontStyle.italic,
-                              color: Colors.redAccent,
-                            ),),),
-                          const SizedBox(width: 10,),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              errorMessage[3],
+                              style: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: Colors.redAccent,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
                         ],
                       ),
                     ),
