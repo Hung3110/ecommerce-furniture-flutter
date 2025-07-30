@@ -1,15 +1,14 @@
 import 'dart:async';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../screens/home.dart';
-import '../screens/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/phone_model.dart';
+import '../screens/home.dart';
+import '../screens/register.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -42,7 +41,6 @@ List<PhoneNumber> listPhoneNumber = const [
 ];
 
 class _LoginState extends State<Login> {
-
   PhoneNumber currentPhoneNumber = listPhoneNumber[0];
   String phoneInput = listPhoneNumber[0].value + listPhoneNumber[0].format;
 
@@ -63,23 +61,30 @@ class _LoginState extends State<Login> {
               // The background color
               backgroundColor: const Color(0xff560f20),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: const [
-                    SizedBox(height: 20,),
-                    CircularProgressIndicator(color: Color(0xffecd8e0),),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    CircularProgressIndicator(
+                      color: Color(0xffecd8e0),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                   ],
                 ),
               ),
             );
-          }
-      );
+          });
 
       UserCredential result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
-          email: '${phoneController.text}@gmail.com', password: passwordController.text);
+              email: '${phoneController.text}@gmail.com',
+              password: passwordController.text);
 
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("idUser", result.user!.uid);
@@ -91,7 +96,7 @@ class _LoginState extends State<Login> {
       Navigator.pop(context);
 
       showDialog(
-        barrierDismissible: false,
+          barrierDismissible: false,
           context: context,
           builder: (_) {
             return Dialog(
@@ -102,38 +107,44 @@ class _LoginState extends State<Login> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: const [
-                    Image(image: AssetImage("assets/icons/success.png"),width: 60,),
+                    Image(
+                      image: AssetImage("assets/icons/success.png"),
+                      width: 60,
+                    ),
                     // Some text
-                    SizedBox(height: 20,),
-                    Text("Login successfully",style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Login successfully",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                   ],
                 ),
               ),
             );
-          }
-      );
+          });
 
       Timer(const Duration(milliseconds: 1500), () {
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (ctx) => const HomePage()));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (ctx) => const HomePage()));
       });
-
     } on FirebaseAuthException catch (error) {
       Navigator.of(context).pop();
 
       var message = "Please Check Your Internet Connection ";
 
-      if(error.code == "user-not-found") {
+      if (error.code == "user-not-found") {
         message = "Information login is incorrectly";
-      }
-      else if(error.code == "network-request-failed") {
+      } else if (error.code == "network-request-failed") {
         message = "Please Check Your Internet Connection";
-      }
-      else if(error.code == "wrong-password"){
+      } else if (error.code == "wrong-password") {
         message = "Password is incorrectly";
       }
       setState(() {
@@ -151,56 +162,67 @@ class _LoginState extends State<Login> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Image(image: AssetImage("assets/icons/cancel.png"),width: 60,),
+                    const Image(
+                      image: AssetImage("assets/icons/cancel.png"),
+                      width: 60,
+                    ),
                     // Some text
-                    const SizedBox(height: 20,),
-                    Text(message,style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),),
-                    const SizedBox(height: 20,),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color> (const Color(0xffecd8e0)),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      message,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
                       ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              const Color(0xffecd8e0)),
+                        ),
                         onPressed: () {
-                      setState(() {
-                        isError = false;
-                        isLoading = false;
-                      });
-                      Navigator.pop(context);
-                    }, child: const Text('OK' , style: TextStyle(
-                      color: Color(0xff560f20),
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),)),
+                          setState(() {
+                            isError = false;
+                            isLoading = false;
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          'OK',
+                          style: TextStyle(
+                            color: Color(0xff560f20),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )),
                   ],
                 ),
               ),
             );
-          }
-      );
-
+          });
     } catch (error) {
       Navigator.of(context).pop();
 
       setState(() {
         isLoading = false;
-        });
-
-      }
+      });
+    }
   }
 
   void validation(BuildContext context) async {
-    if (phoneController.text.isEmpty &&
-        passwordController.text.isEmpty) {
+    if (phoneController.text.isEmpty && passwordController.text.isEmpty) {
       setState(() {
         validatePhone = false;
-        validatePass  = false;
+        validatePass = false;
       });
     }
 
-    if(validatePhone) {
+    if (validatePhone) {
       if (validatePass) {
         if (validatePass) {
           submit(context);
@@ -211,398 +233,407 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-
     List<String> errorMessage = [
       "Phone is only ${currentPhoneNumber.digit} number and not empty",
       'Password must least 8 digit and not empty',
     ];
 
     return Scaffold(
-      key: _scaffoldKey,
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom / 2,
-        ),
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/background_login.jpg"),
-              fit: BoxFit.fill,
-            )),
-        child: SafeArea(
-          child: GlassmorphicContainer(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            margin: const EdgeInsets.all(20),
-            borderRadius: 20,
-            linearGradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.white.withOpacity(0.6),
-                  Colors.white.withOpacity(0.3),
-                ],
-                stops: const [
-                  0.5,
-                  1
-                ]),
-            border: 0,
-            blur: 20,
-            borderGradient: const LinearGradient(colors: [
-              Colors.white,
-              Colors.white,
-            ]),
-            child: SingleChildScrollView(
-              child: Container(
-                padding: const EdgeInsets.all(0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    ClipPath(
-                      clipper: Clipper(),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        alignment: Alignment.topCenter,
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/background_login.jpg"),
-                              fit: BoxFit.fill,
-                            )),
-                        padding: const EdgeInsets.only(left: 70, right: 70),
-                        height: MediaQuery.of(context).size.height / 3,
-                      ),
-                    ),
-                    const Text(
-                      "Welcom back",
-                      style: TextStyle(
-                          color: Color(0xff410000),
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    const Text(
-                      "Login to your account",
-                      style: TextStyle(
-                        color: Color(0xff410000),
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-
-                    // Phone Number
-                    GlassmorphicContainer(
-                      width: MediaQuery.of(context).size.width,
-                      alignment: Alignment.center,
-                      height: 60,
-                      margin: const EdgeInsets.only(
-                          bottom: 10, top: 20, left: 20, right: 20),
-                      borderRadius: 50,
-                      linearGradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Colors.white.withOpacity(0.8),
-                            Colors.white.withOpacity(0.6),
-                            Colors.white.withOpacity(0.2),
-                          ],
-                          stops: const [
-                            0.5,
-                            0.8,
-                            1
-                          ]),
-                      border: 0,
-                      blur: 0,
-                      borderGradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.white.withOpacity(0.8),
-                            Colors.white.withOpacity(0.2),
-                          ],
-                          stops: const [
-                            0.5,
-                            1
-                          ]),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width/6,
-                            margin: const EdgeInsets.only(left: 20),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton<PhoneNumber>(
-                                menuMaxHeight:
-                                MediaQuery.of(context).size.height / 2,
-                                isExpanded: true,
-                                borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                                dropdownColor: const Color(0xfff2f9fe),
-                                value: currentPhoneNumber,
-                                items: listPhoneNumber.map((e) {
-                                  return DropdownMenuItem<PhoneNumber>(
-                                    value: e,
-                                    child: Text(e.value , style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Color(0xff410000),
-                                    ),),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    currentPhoneNumber = value!;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: TextField(
-                              onChanged: (text) {
-                                if((text.isEmpty || digitExp.hasMatch(text)) && text.length == currentPhoneNumber.digit) {
-                                  setState(() {
-                                    validatePhone = true;
-                                  });
-                                }
-                                else {
-                                  setState(() {
-                                    validatePhone = false;
-                                  });
-                                }
-
-                                if(text.isEmpty) {
-                                  validatePhone = true;
-                                }
-                              },
-                              cursorColor: const Color(0xff410000),
-                              style: const TextStyle(
-                                letterSpacing: 1,
-                                fontSize: 20,
-                                color: Color(0xff410000),
-                              ),
-                              controller: phoneController,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: currentPhoneNumber.format,
-                                prefixIcon: const Icon(
-                                  Icons.phone_android,
-                                  color: Color(0xff7c0019),
-                                  size: 30,
-                                ),
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Visibility(
-                      visible: !validatePhone,
-                      child: Column(
-                        children: [
-                          Text(
-                            errorMessage[0],
-                            style: const TextStyle(
-                              fontStyle: FontStyle.italic,
-                              color: Colors.redAccent,
-                            ),
-                          ),
-                          const SizedBox(height: 5,),
-                        ],
-                      ),
-                    ),
-
-                    // Password
-                    GlassmorphicContainer(
-                      width: MediaQuery.of(context).size.width,
-                      alignment: Alignment.center,
-                      height: 60,
-                      margin:
-                      const EdgeInsets.only(bottom: 10, left: 20, right: 20),
-                      borderRadius: 50,
-                      linearGradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Colors.white.withOpacity(0.8),
-                            Colors.white.withOpacity(0.6),
-                            Colors.white.withOpacity(0.2),
-                          ],
-                          stops: const [
-                            0.5,
-                            0.8,
-                            1
-                          ]),
-                      border: 0,
-                      blur: 0,
-                      borderGradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.white.withOpacity(0.8),
-                            Colors.white.withOpacity(0.2),
-                          ],
-                          stops: const [
-                            0.5,
-                            1
-                          ]),
-                      child: TextField(
-                        onChanged: (text) {
-                          validatePass = true;
-                        },
-                        cursorColor: const Color(0xff410000),
-                        style: const TextStyle(
-                          letterSpacing: 1,
-                          fontSize: 20,
-                          color: Color(0xff410000),
-                        ),
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.text,
-                        obscureText: passwordVisible,
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          hintText: 'Password',
-                          prefixIcon: const Icon(
-                            Icons.key_outlined,
-                            color: Color(0xff7c0019),
-                            size: 30,
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              passwordVisible
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: const Color(0xff7c0019),
-                            ),
-                            onPressed: (() {
-                              setState(() {
-                                passwordVisible = !passwordVisible;
-                              });
-                            }),
-                          ),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    Visibility(
-                      visible: !validatePass,
-                      child: Column(
-                        children: [
-                          Text(
-                            errorMessage[1],
-                            style: const TextStyle(
-                              fontStyle: FontStyle.italic,
-                              color: Colors.redAccent,
-                            ),
-                          ),
-                          const SizedBox(height: 5,),
-                        ],
-                      ),
-                    ),
-
-                    // Forget password
-                    Container(
-                      alignment: Alignment.bottomRight,
-                      margin: const EdgeInsets.only(right: 30),
-                      child: TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            "Forget Password ?",
-                            style: TextStyle(
-                                color: Color(0xff410000),
-                                fontStyle: FontStyle.italic,
-                                fontSize: 17),
-                          )),
-                    ),
-
-                    // Button submit
-                    GlassmorphicContainer(
-                      width: MediaQuery.of(context).size.width,
-                      alignment: Alignment.center,
-                      height: 60,
-                      margin: const EdgeInsets.only(
-                          bottom: 0, top: 10, left: 20, right: 20),
-                      borderRadius: 50,
-                      linearGradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            const Color(0xff410000).withOpacity(0.8),
-                            const Color(0xff410000).withOpacity(0.6),
-                            const Color(0xff410000).withOpacity(0.3),
-                          ],
-                          stops: const [
-                            0.5,
-                            0.8,
-                            1
-                          ]),
-                      border: 0,
-                      blur: 0,
-                      borderGradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.white.withOpacity(0.8),
-                            Colors.white.withOpacity(0.2),
-                          ],
-                          stops: const [
-                            0.5,
-                            1
-                          ]),
-                      child: ButtonTheme(
-                        child: MaterialButton(
-                          minWidth: double.infinity,
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(fontSize: 20, color: Colors.white),
-                          ),
-                          onPressed: () {
-                            validation(context);
-                          },
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Don't have account ?",
-                          style: TextStyle(
-                              color: Color(0xff410000),
-                              fontSize: 17,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Register()));
-                            });
-                          },
-                          child: const Text(
-                            "Sign up",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w900),
-                          ),
-                        ),
-                      ],
-                    ),
+        // key: _scaffoldKey,
+        resizeToAvoidBottomInset: false,
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom / 2,
+          ),
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+            image: AssetImage("assets/images/background_login.jpg"),
+            fit: BoxFit.fill,
+          )),
+          child: SafeArea(
+            child: GlassmorphicContainer(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              margin: const EdgeInsets.all(20),
+              borderRadius: 20,
+              linearGradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white.withOpacity(0.6),
+                    Colors.white.withOpacity(0.3),
                   ],
+                  stops: const [
+                    0.5,
+                    1
+                  ]),
+              border: 0,
+              blur: 20,
+              borderGradient: const LinearGradient(colors: [
+                Colors.white,
+                Colors.white,
+              ]),
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.all(0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      ClipPath(
+                        clipper: Clipper(),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          alignment: Alignment.topCenter,
+                          decoration: const BoxDecoration(
+                              image: DecorationImage(
+                            image: AssetImage(
+                                "assets/images/background_login.jpg"),
+                            fit: BoxFit.fill,
+                          )),
+                          padding: const EdgeInsets.only(left: 70, right: 70),
+                          height: MediaQuery.of(context).size.height / 3,
+                        ),
+                      ),
+                      const Text(
+                        "Welcom back",
+                        style: TextStyle(
+                            color: Color(0xff410000),
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const Text(
+                        "Login to your account",
+                        style: TextStyle(
+                          color: Color(0xff410000),
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+
+                      // Phone Number
+                      GlassmorphicContainer(
+                        width: MediaQuery.of(context).size.width,
+                        alignment: Alignment.center,
+                        height: 60,
+                        margin: const EdgeInsets.only(
+                            bottom: 10, top: 20, left: 20, right: 20),
+                        borderRadius: 50,
+                        linearGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Colors.white.withOpacity(0.8),
+                              Colors.white.withOpacity(0.6),
+                              Colors.white.withOpacity(0.2),
+                            ],
+                            stops: const [
+                              0.5,
+                              0.8,
+                              1
+                            ]),
+                        border: 0,
+                        blur: 0,
+                        borderGradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.white.withOpacity(0.8),
+                              Colors.white.withOpacity(0.2),
+                            ],
+                            stops: const [
+                              0.5,
+                              1
+                            ]),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width / 6,
+                              margin: const EdgeInsets.only(left: 20),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<PhoneNumber>(
+                                  menuMaxHeight:
+                                      MediaQuery.of(context).size.height / 2,
+                                  isExpanded: true,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10)),
+                                  dropdownColor: const Color(0xfff2f9fe),
+                                  value: currentPhoneNumber,
+                                  items: listPhoneNumber.map((e) {
+                                    return DropdownMenuItem<PhoneNumber>(
+                                      value: e,
+                                      child: Text(
+                                        e.value,
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xff410000),
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      currentPhoneNumber = value!;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: TextField(
+                                onChanged: (text) {
+                                  if ((text.isEmpty ||
+                                          digitExp.hasMatch(text)) &&
+                                      text.length == currentPhoneNumber.digit) {
+                                    setState(() {
+                                      validatePhone = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      validatePhone = false;
+                                    });
+                                  }
+
+                                  if (text.isEmpty) {
+                                    validatePhone = true;
+                                  }
+                                },
+                                cursorColor: const Color(0xff410000),
+                                style: const TextStyle(
+                                  letterSpacing: 1,
+                                  fontSize: 20,
+                                  color: Color(0xff410000),
+                                ),
+                                controller: phoneController,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: currentPhoneNumber.format,
+                                  prefixIcon: const Icon(
+                                    Icons.phone_android,
+                                    color: Color(0xff7c0019),
+                                    size: 30,
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Visibility(
+                        visible: !validatePhone,
+                        child: Column(
+                          children: [
+                            Text(
+                              errorMessage[0],
+                              style: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: Colors.redAccent,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Password
+                      GlassmorphicContainer(
+                        width: MediaQuery.of(context).size.width,
+                        alignment: Alignment.center,
+                        height: 60,
+                        margin: const EdgeInsets.only(
+                            bottom: 10, left: 20, right: 20),
+                        borderRadius: 50,
+                        linearGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Colors.white.withOpacity(0.8),
+                              Colors.white.withOpacity(0.6),
+                              Colors.white.withOpacity(0.2),
+                            ],
+                            stops: const [
+                              0.5,
+                              0.8,
+                              1
+                            ]),
+                        border: 0,
+                        blur: 0,
+                        borderGradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.white.withOpacity(0.8),
+                              Colors.white.withOpacity(0.2),
+                            ],
+                            stops: const [
+                              0.5,
+                              1
+                            ]),
+                        child: TextField(
+                          onChanged: (text) {
+                            validatePass = true;
+                          },
+                          cursorColor: const Color(0xff410000),
+                          style: const TextStyle(
+                            letterSpacing: 1,
+                            fontSize: 20,
+                            color: Color(0xff410000),
+                          ),
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.text,
+                          obscureText: passwordVisible,
+                          controller: passwordController,
+                          decoration: InputDecoration(
+                            hintText: 'Password',
+                            prefixIcon: const Icon(
+                              Icons.key_outlined,
+                              color: Color(0xff7c0019),
+                              size: 30,
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                passwordVisible
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: const Color(0xff7c0019),
+                              ),
+                              onPressed: (() {
+                                setState(() {
+                                  passwordVisible = !passwordVisible;
+                                });
+                              }),
+                            ),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: !validatePass,
+                        child: Column(
+                          children: [
+                            Text(
+                              errorMessage[1],
+                              style: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: Colors.redAccent,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Forget password
+                      Container(
+                        alignment: Alignment.bottomRight,
+                        margin: const EdgeInsets.only(right: 30),
+                        child: TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              "Forget Password ?",
+                              style: TextStyle(
+                                  color: Color(0xff410000),
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 17),
+                            )),
+                      ),
+
+                      // Button submit
+                      GlassmorphicContainer(
+                        width: MediaQuery.of(context).size.width,
+                        alignment: Alignment.center,
+                        height: 60,
+                        margin: const EdgeInsets.only(
+                            bottom: 0, top: 10, left: 20, right: 20),
+                        borderRadius: 50,
+                        linearGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              const Color(0xff410000).withOpacity(0.8),
+                              const Color(0xff410000).withOpacity(0.6),
+                              const Color(0xff410000).withOpacity(0.3),
+                            ],
+                            stops: const [
+                              0.5,
+                              0.8,
+                              1
+                            ]),
+                        border: 0,
+                        blur: 0,
+                        borderGradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.white.withOpacity(0.8),
+                              Colors.white.withOpacity(0.2),
+                            ],
+                            stops: const [
+                              0.5,
+                              1
+                            ]),
+                        child: ButtonTheme(
+                          child: MaterialButton(
+                            minWidth: double.infinity,
+                            child: const Text(
+                              'Login',
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
+                            onPressed: () {
+                              validation(context);
+                            },
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Don't have account ?",
+                            style: TextStyle(
+                                color: Color(0xff410000),
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              setState(() {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const Register()));
+                              });
+                            },
+                            child: const Text(
+                              "Sign up",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w900),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      )
-    );
+        ));
   }
 }
 

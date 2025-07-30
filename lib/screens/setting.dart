@@ -87,10 +87,10 @@ class _SettingPageState extends State<SettingPage> {
                   const SizedBox(
                     height: 100,
                   ),
-                  getRowDirect(Icons.account_circle_outlined, 'Profile'),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  // getRowDirect(Icons.account_circle_outlined, 'Profile'),
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
                   getRowDirect(Icons.favorite_border_outlined, 'Favorite'),
                   const SizedBox(
                     height: 10,
@@ -116,20 +116,19 @@ class _SettingPageState extends State<SettingPage> {
   Widget getRowDirect(IconData icon, String text) {
     return ElevatedButton(
       onPressed: () {
-        if(text == "Profile") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
-        }
-        else if(text == "Favorite") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const FavoritePage()));
-        }
-        else if(text == "Cart") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const CartPage()));
-        }
-        else if(text == "Order") {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderPage()));
-        }
-        else if(text == "Log out") {
-
+        if (text == "Profile") {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const ProfilePage()));
+        } else if (text == "Favorite") {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const FavoritePage()));
+        } else if (text == "Cart") {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const CartPage()));
+        } else if (text == "Order") {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const OrderPage()));
+        } else if (text == "Log out") {
           showDialog(
               context: context,
               builder: (_) {
@@ -137,22 +136,29 @@ class _SettingPageState extends State<SettingPage> {
                   // The background color
                   backgroundColor: const Color(0xff560f20),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: const [
-                        SizedBox(height: 20,),
-                        CircularProgressIndicator(color: Color(0xffecd8e0),),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        CircularProgressIndicator(
+                          color: Color(0xffecd8e0),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
                       ],
                     ),
                   ),
                 );
-              }
-          );
+              });
 
           userProvider.signOut().then((value) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const Login()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Login()));
           });
         }
       },
@@ -160,7 +166,6 @@ class _SettingPageState extends State<SettingPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         padding: const EdgeInsets.all(10),
-
       ),
       child: Row(
         children: [

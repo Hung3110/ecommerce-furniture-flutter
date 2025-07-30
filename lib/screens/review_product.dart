@@ -1,14 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:furniture_app_project/models/order_model.dart';
 import 'package:furniture_app_project/models/product_model.dart';
-import 'package:furniture_app_project/screens/cart.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'dart:io';
 
 import '../provider/product_provider.dart';
 
@@ -25,7 +24,6 @@ ProductProvider productProvider = ProductProvider();
 class _ReviewPageState extends State<ReviewPage> {
   double star = 0;
   TextEditingController messageController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -248,8 +246,7 @@ class _ReviewPageState extends State<ReviewPage> {
                               ],
                             ),
                             child: const Icon(Icons.shopping_bag)),
-                        onTap: () {
-                        },
+                        onTap: () {},
                       ),
                       const SizedBox(
                         width: 20,
@@ -295,8 +292,9 @@ class _ReviewPageState extends State<ReviewPage> {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image(image: AssetImage(
-                                  e.imgProduct),width: 50,
+                              Image(
+                                  image: NetworkImage(e.imgProduct),
+                                  width: 50,
                                   height: 50)
                             ],
                           ),
@@ -334,8 +332,7 @@ class _ReviewPageState extends State<ReviewPage> {
                                   height: 5,
                                 ),
                                 Text(
-                                  accumPrice( e.price,
-                                     e.quantity),
+                                  accumPrice(e.price, e.quantity),
                                   style: const TextStyle(
                                     color: Color(0xff5e1414),
                                     fontSize: 15,
@@ -358,7 +355,7 @@ class _ReviewPageState extends State<ReviewPage> {
                       ? Wrap(
                           spacing: 0,
                           children: imagefiles!.map((e) {
-                            return Container(
+                            return SizedBox(
                               width: 100,
                               height: 100,
                               child: Image.file(File(e.path)),
@@ -402,7 +399,7 @@ class _ReviewPageState extends State<ReviewPage> {
                     ),
                   );
                 });
-            
+
             var listProduct = productProvider.getListProduct;
             var product = Product(
                 title: "",
@@ -418,12 +415,13 @@ class _ReviewPageState extends State<ReviewPage> {
                 material: const {},
                 review: 0,
                 sellest: 0,
-                productItemList: const [], reviewList: const [],
+                productItemList: const [],
+                reviewList: const [],
                 timestamp: DateTime.now());
 
-            for(var element in listProduct) {
-              for(var e in element.productItemList) {
-                if(e.id == widget.orderModel.cartList[0].idProduct) {
+            for (var element in listProduct) {
+              for (var e in element.productItemList) {
+                if (e.id == widget.orderModel.cartList[0].idProduct) {
                   product = element;
                 }
               }
@@ -433,13 +431,14 @@ class _ReviewPageState extends State<ReviewPage> {
             Timestamp myTimeStamp = Timestamp.fromDate(DateTime.now());
 
             var review = Review(
-                id: 'RE${id+1}',
+                id: 'RE${id + 1}',
                 idUser: widget.orderModel.idUser,
                 idOrder: widget.orderModel.idOrder,
                 message: messageController.text,
                 img: const [],
                 date: DateTime.now(),
-                service: const {}, star: star);
+                service: const {},
+                star: star);
 
             productProvider.addReview(review, product.id).then((value) {
               showDialog(
@@ -454,20 +453,29 @@ class _ReviewPageState extends State<ReviewPage> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: const [
-                            Image(image: AssetImage("assets/icons/success.png"),width: 60,),
+                            Image(
+                              image: AssetImage("assets/icons/success.png"),
+                              width: 60,
+                            ),
                             // Some text
-                            SizedBox(height: 20,),
-                            Text("Review successfully",style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),),
-                            SizedBox(height: 20,),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Review successfully",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
                           ],
                         ),
                       ),
                     );
-                  }
-              );
+                  });
               Timer(const Duration(milliseconds: 500), () {
                 Navigator.pop(context);
                 Navigator.pop(context);
@@ -498,5 +506,4 @@ class _ReviewPageState extends State<ReviewPage> {
   String accumPrice(double price, int quantity) {
     return "\$ ${price * quantity}";
   }
-
 }
