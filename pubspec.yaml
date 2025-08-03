@@ -1,5 +1,5 @@
 name: furniture_app_project
-description: Final Project for Flutter Course T7
+description: Final Project for Flutter Course
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -32,6 +32,9 @@ dependencies:
     sdk: flutter
 
 
+
+  file_picker: ^6.2.1
+  http: ^1.2.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -56,6 +59,11 @@ dependencies:
   flutter_svg: ^2.0.5
   barcode: ^2.2.3
   firebase_admin: 0.3.0+2
+  firebase_messaging: ^14.7.7
+  flutter_local_notifications: ^17.1.2
+  firebase_app_check: ^0.2.2+1
+
+
 
 dev_dependencies:
   flutter_test:

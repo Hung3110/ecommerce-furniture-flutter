@@ -22,6 +22,9 @@ import '../widgets/banner.dart';
 import '../widgets/bottom_navy_bar.dart';
 import '../widgets/category_list.dart';
 import '../widgets/search.dart';
+import '../widgets/chatbot_popup.dart'; // <--- 1. Import widget chat
+
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -49,6 +52,29 @@ class _HomePageState extends State<HomePage> {
   late bool showFavoriteBadge;
 
   late double height, width;
+
+
+  // hàm vẽ hình chatbot
+  void _showChatbotPopup(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      //backgroundColor: Colors.transparent, // Nền trong suốt để bo góc có hiệu lực
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.85,
+          child: const ChatbotPopup(),
+        );
+      },
+    );
+
+  }
+
+
+
 
   void getCallAllFunction() {
     categoryProvider.getCategory();
@@ -140,6 +166,7 @@ class _HomePageState extends State<HomePage> {
           child: Scaffold(
             // Appbar
             appBar: PreferredSize(
+              
               preferredSize: const Size.fromHeight(60),
               child: SafeArea(
                 child: Container(
@@ -475,6 +502,13 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             bottomNavigationBar: getFooter(0, context),
+            // Dán vào trong Scaffold
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => _showChatbotPopup(context),
+              backgroundColor: const Color(0xff80221e), // Dùng màu chủ đạo của app
+              tooltip: 'Trò chuyện với trợ lý',
+              child: const Icon(Icons.support_agent, color: Colors.white),
+            ),
           ),
         ),
       ],
@@ -1161,7 +1195,11 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ],
                                 )),
+                                // Code đã sửa lỗi
                                 Column(
+                                  // Tự động căn chỉnh không gian, loại bỏ SizedBox cố định
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end, // Căn phải cho đẹp
                                   children: [
                                     GestureDetector(
                                       onTap: () {
@@ -1173,7 +1211,7 @@ class _HomePageState extends State<HomePage> {
                                                 .elementAt(0),
                                             quantity: 1,
                                             idProduct:
-                                                element.productItemList[0].id,
+                                            element.productItemList[0].id,
                                             price: element.currentPrice);
 
                                         handler.insertCart(cart);
@@ -1196,9 +1234,9 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
+
+                                    const Spacer(), // Dùng Spacer để đẩy giá xuống dưới cùng
+
                                     AutoSizeText(
                                       getDecorPrice(element.rootPrice),
                                       maxFontSize: 12,
@@ -1212,7 +1250,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ),
                                     const SizedBox(
-                                      height: 5,
+                                      height: 2, // Giảm khoảng trống nhỏ
                                     ),
                                     AutoSizeText(
                                       getDecorPrice(element.currentPrice),
@@ -1771,4 +1809,5 @@ class PriceTagPaint extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+
 }

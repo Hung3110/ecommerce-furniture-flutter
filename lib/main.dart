@@ -9,6 +9,7 @@ import 'provider/order_provider.dart';
 import 'provider/product_provider.dart';
 import 'provider/user_provider.dart';
 import 'services/DatabaseHandler.dart';
+import 'services/notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +17,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
+//  Hàm xử lý khi nhận thông báo ở chế độ background
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  print("Handling a background message: ${message.messageId}");
+}
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -24,9 +35,23 @@ Future<void> main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+
+    // <-- 2. Thêm khối lệnh này để kích hoạt App Check
+    await FirebaseAppCheck.instance.activate(
+      androidProvider: AndroidProvider.playIntegrity,
+    );
+
     await FirebaseAuth.instance.setSettings(
-        appVerificationDisabledForTesting: true);
+      appVerificationDisabledForTesting: true,
+    );
     print('Firebase initialized successfully');
+    //  Đăng ký background message handler
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+    //  Khởi tạo NotificationService
+    await NotificationService().initNotifications();
+
+
   } catch (e) {
     print('Firebase initialization failed: $e');
   }
@@ -70,7 +95,8 @@ class MyApp extends StatelessWidget {
         title: 'Furniture App',
         theme: ThemeData(
           scaffoldBackgroundColor: const Color(0xfff2f9fe),
-          textTheme: GoogleFonts.dmSansTextTheme().apply(displayColor: Colors.black),
+          textTheme:
+          GoogleFonts.dmSansTextTheme().apply(displayColor: Colors.black),
           primaryColor: const Color(0xff410000),
           iconTheme: const IconThemeData(color: Colors.white),
           visualDensity: VisualDensity.adaptivePlatformDensity,
